@@ -5,6 +5,7 @@
 
 #include "GameView.hpp"
 #include <iostream>
+#include "SDL2/SDL_video.h"
 
 namespace cse498 {
 
@@ -19,7 +20,7 @@ bool GameView::Initialize() {
     }
 
     mWindow = SDL_CreateWindow(mTitle.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, mWidth, mHeight,
-                               SDL_WINDOW_SHOWN);
+                               SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 
     if (mWindow == nullptr) {
         std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << "\n";
@@ -64,6 +65,20 @@ void GameView::Shutdown() {
     }
     SDL_Quit();
 }
+
+void GameView::SetWindowSize(const int& width, const int& height) {
+    SDL_SetWindowSize(mWindow, width, height);
+}
+void GameView::SetWindowHeight(int& height) {
+
+}
+
+void GameView::SetWindowWidth(int& width) {
+
+}
+
+
+
 
 bool GameView::IsReady() const { return mWindow != nullptr && mRenderer != nullptr; }
 

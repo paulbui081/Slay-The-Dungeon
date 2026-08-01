@@ -72,3 +72,4 @@ doxygen-output
 # The file where Doxygen warnings are logged
 # (config this in your Doxyfile: WARN_LOGFILE = ./doxygen-warnings.log)
 doxygen-warnings.log
+sdl-render-uml.mmd

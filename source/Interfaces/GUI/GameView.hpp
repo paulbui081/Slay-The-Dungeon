@@ -59,11 +59,21 @@ public:
      */
     bool IsReady() const;
 
+    /*
+     * Sets Window to a certain width/height
+     */
+    void SetWindowSize(const int& width, const int& height);
+    void SetWindowHeight(int& height);
+    void SetWindowWidth(int& width);
+
     // Accessors
     SDL_Window* GetWindow() const { return mWindow; }
     SDL_Renderer* GetRenderer() const { return mRenderer; }
     int GetWidth() const { return mWidth; }
     int GetHeight() const { return mHeight; }
+
+    void SetWidth(const int& width) { mWidth = width; }
+    void SetHeight(const int& height) { mHeight = height; }
 };
 
 } // namespace cse498

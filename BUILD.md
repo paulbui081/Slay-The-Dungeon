@@ -8,6 +8,9 @@ From the project root, run:
 cmake -S . -B build
 ```
 
+In order to re-make the project build root, do: 
+
+
 This generates a new `build` folder.
 
 Then build the project with either:

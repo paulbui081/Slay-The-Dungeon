@@ -20,6 +20,8 @@
 #include "../../../Agents/AI/EnemyAgent.hpp"
 #include "../../../Agents/AI/TrailblazerAgent.hpp"
 #include "../../../Agents/AI/FetchAgent.hpp"
+#include "SDL2/SDL_events.h"
+#include "SDL2/SDL_video.h"
 
 namespace cse498
 {
@@ -602,7 +604,7 @@ namespace cse498
         };
 
         // KAREN: DungeonWorld works with Enemy, but not EnemyAgent, so this should have
-        // been placed as a Group 15 hook instead. 
+        // been placed as a Group 15 hook instead.
         /// @internal Group 17 AI hook: drop a @ref SmartEnemyAgent into the dungeon.
         ///
         /// The current @c DungeonWorld API does not expose a "first room center"
@@ -623,7 +625,7 @@ namespace cse498
         // PlaceOnNextFloor(trailblazer);
         // std::cout << "Trailblazer at: " << trailblazer.GetLocation().AsWorldPosition().CellX()
         //   << "," << trailblazer.GetLocation().AsWorldPosition().CellY() << std::endl;
-        
+
         RebuildDungeonGrid();
         mDungeonWorld->SetAnalyticsManager(mAnalyticsManager);
     }
@@ -806,6 +808,48 @@ namespace cse498
             if (event.type == SDL_QUIT)
             {
                 mRunning = false;
+            }
+
+            if (event.type == SDL_WINDOWEVENT)
+            {
+                std::cout << "WindowEvent Firing!!!!" << std::endl;
+                switch (event.window.event){
+                    case SDL_WINDOWEVENT_RESIZED:
+                        auto& width = event.window.data1;
+                        auto& height = event.window.data2;
+                        std::cout << "Resize Firing!!!!" << std::endl;
+
+
+                        if (width < kMinimumWindowWidth && height < kMinimumWindowHeight)
+                        {
+                            std::cout << "both are lower than the minimum window height" << std::endl;
+                            mGameView->SetWindowSize(kMinimumWindowWidth, kMinimumWindowHeight);
+                            break;
+                        }
+
+                        else if (width < kMinimumWindowWidth)
+                        {
+                            std::cout << "x_width is lower than the minimum window width" << std::endl;
+                            mGameView->SetWindowSize(kMinimumWindowWidth, mGameView->GetHeight());
+                            break;
+                        }
+                        else if (height < kMinimumWindowHeight)
+                        {
+                            std::cout << "y_width is lower than the minimum window height" << std::endl;
+                            mGameView->SetWindowSize(mGameView->GetWidth(), kMinimumWindowHeight);
+                            break;
+                        }
+
+                        else
+                        {
+                            std::cout << "all is right with the world" << std::endl;
+                            mGameView->SetWidth(width);
+                            mGameView->SetHeight(height);
+                        }
+
+                        break;
+
+                }
             }
 
             if (event.type == SDL_KEYDOWN)
@@ -2015,7 +2059,7 @@ namespace cse498
         text_x = panel_x + (panel_w - mPickupText.GetWidth()) / 2;
         mPickupText.Draw(text_x, y);
     }
-    
+
     void Game::RenderResourceManagement() {
         RenderOverworld();
 
