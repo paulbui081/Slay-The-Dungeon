@@ -69,13 +69,6 @@ void GameView::Shutdown() {
 void GameView::SetWindowSize(const int& width, const int& height) {
     SDL_SetWindowSize(mWindow, width, height);
 }
-void GameView::SetWindowHeight(int& height) {
-
-}
-
-void GameView::SetWindowWidth(int& width) {
-
-}
 
 
 

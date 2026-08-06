@@ -504,6 +504,7 @@ WebInterface::WebInterface(std::unique_ptr<InteractiveWorld> overworld, std::uni
     mSymbolPathDungeon['0'] = basePath + castle + wall + "border_bottom_castle.png";
     mSymbolPathDungeon['-'] = basePath + castle + wall + "border_left_castle.png";
     mSymbolPathDungeon['='] = basePath + castle + wall + "border_right_castle.png";
+    mSymbolPathDungeon['x'] = basePath + castle + wall + "border_edige_dungeon.png";
     mSymbolPathDungeon['['] = basePath + castle + wall + "internal/border_inside_castle_1.png";
     mSymbolPathDungeon[']'] = basePath + castle + wall + "internal/border_inside_castle_2.png";
     mSymbolPathDungeon['.'] = basePath + castle + wall + "door_left_castle.png";

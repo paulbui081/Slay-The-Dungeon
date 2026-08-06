@@ -1,7 +1,7 @@
 /**
  * This file is part of the Fall 2026, CSE 498, section 2, course project.
  * Attributed References for the 'random_splits' function: https://eskerda.com/bsp-dungeon-generation/
- * References: https://www.roguebasin.com/index.php/Basic_BSP_Dungeon_generation 
+ * References: https://www.roguebasin.com/index.php/Basic_BSP_Dungeon_generation
  * References: https://en.wikipedia.org/wiki/Binary_space_partitioning
  * @brief A BSP tree
  * @note Status: PROPOSAL
@@ -33,7 +33,7 @@ namespace cse498 {
         int x = 0; // x-coordinate of the grid, default set to origin point (top-left corner)
         int y = 0; // y-coordinate of the grid, default set to origin point (top-left corner)
         int width = 0; //width of the room
-        int height = 0; //height of the room 
+        int height = 0; //height of the room
         // (width, height) - dimension of the grid cut (lxw)
         std::string name = ""; //Name of the node for debugging purposes
         std::vector<std::string> vector_room{}; //Stores a certain dungeon room
@@ -255,7 +255,7 @@ namespace cse498 {
             Empty();
             CreateBSPTree();
         }
- 
+
         /// @brief Sets RNG seed primarily for test case purposes
         /// @param integer seed value we want to set the RNG object too
         void SetRngSeed(uint64_t integer) {
@@ -371,6 +371,7 @@ namespace cse498 {
             BSPNode left_split, right_split;
             bool directional_split;
 
+            //If both width and height are able to be split, it'll randomly decide either which one to split
             if (split_width && split_height) {
                 auto left_side = m_rng.GetValue(0, 1);
                 assert(left_side.has_value());

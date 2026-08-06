@@ -188,6 +188,7 @@ namespace cse498
         if (!LoadCheck("floor_l3v3", std::string(ASSETS_DIR) + "/" +  "world/dungeon/floor_tiles/tile_stoneBrick_3.png")) return false;
         if (!LoadCheck("floor_l3v4", std::string(ASSETS_DIR) + "/" +  "world/dungeon/floor_tiles/tile_stoneBrick_4.png")) return false;
         if (!LoadCheck("floor_l3v5", std::string(ASSETS_DIR) + "/" +  "world/dungeon/floor_tiles/tile_stoneBrick_5.png")) return false;
+
         // --- Level 4 floors (castle) ---
         if (!LoadCheck("floor_l4v1", std::string(ASSETS_DIR) + "/" +  "world/castle/floor_tiles/tile_wood_1.png")) return false;
         if (!LoadCheck("floor_l4v2", std::string(ASSETS_DIR) + "/" +  "world/castle/floor_tiles/tile_wood_2.png")) return false;
@@ -207,6 +208,13 @@ namespace cse498
         if (!LoadCheck("wall_l1v6", std::string(ASSETS_DIR) + "/" +  "world/forest/walls/external/border_top_forest.png")) return false;
         if (!LoadCheck("wall_l1v7", std::string(ASSETS_DIR) + "/" +  "world/forest/walls/external/door_left_forest.png")) return false;
         if (!LoadCheck("wall_l1v8", std::string(ASSETS_DIR) + "/" +  "world/forest/walls/external/door_right_forest.png")) return false;
+
+        if (!LoadCheck("top_right_corner_l1", std::string(ASSETS_DIR) + "/" +  "world/forest/walls/external/border_edge_forest_top_right.png")) return false;
+        if (!LoadCheck("top_left_corner_l1", std::string(ASSETS_DIR) + "/" +  "world/forest/walls/external/border_edge_forest_top_left.png")) return false;
+        if (!LoadCheck("bottom_left_corner_l1", std::string(ASSETS_DIR) + "/" +  "world/forest/walls/external/border_edge_forest_bottom_left.png")) return false;
+        if (!LoadCheck("bottom_right_corner_l1", std::string(ASSETS_DIR) + "/" +  "world/forest/walls/external/border_edge_forest_bottom_right.png")) return false;
+
+
         // --- Level 2 walls (cave) ---
         if (!LoadCheck("wall_l2v1", std::string(ASSETS_DIR) + "/" +  "world/cave/walls/external/border_top_cave.png")) return false;
         if (!LoadCheck("wall_l2v2", std::string(ASSETS_DIR) + "/" +  "world/cave/walls/external/border_bottom_cave.png")) return false;
@@ -225,6 +233,8 @@ namespace cse498
         if (!LoadCheck("wall_l3v6", std::string(ASSETS_DIR) + "/" +  "world/dungeon/walls/external/border_top_dungeon.png")) return false;
         if (!LoadCheck("wall_l3v7", std::string(ASSETS_DIR) + "/" +  "world/dungeon/walls/external/door_left_dungeon.png")) return false;
         if (!LoadCheck("wall_l3v8", std::string(ASSETS_DIR) + "/" +  "world/dungeon/walls/external/door_right_dungeon.png")) return false;
+        if (!LoadCheck("corner_l3", std::string(ASSETS_DIR) + "/" +  "world/dungeon/walls/external/border_edge_dungeon.png")) return false;
+
         // --- Level 4 walls (castle) ---
         if (!LoadCheck("wall_l4v1", std::string(ASSETS_DIR) + "/" +  "world/castle/walls/external/border_top_castle.png")) return false;
         if (!LoadCheck("wall_l4v2", std::string(ASSETS_DIR) + "/" +  "world/castle/walls/external/border_bottom_castle.png")) return false;
@@ -1393,6 +1403,7 @@ namespace cse498
     void Game::UpdateDungeon()
     {
         // skip the player in the world agent list, they should choose their own move when needed to.
+        std::cout << "test output" << std::endl;
         if (mTurnTaken) {
             for (size_t i = 0; i < mDungeonWorld->GetNumAgents(); ++i) {
                 // KAREN: I believe this should be GetAgentByIndex

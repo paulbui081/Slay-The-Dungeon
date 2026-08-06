@@ -57,7 +57,7 @@ namespace cse498 {
         static constexpr std::string_view INTERACT_STRING = "e";
         static constexpr std::string_view QUIT_STRING = "q";
     };
-    
+
     class DungeonWorld : public WorldBase {
         static constexpr double BASE_RANGE = 1.0;
         static constexpr double BASE_DAMAGE = 1.0;
@@ -77,7 +77,7 @@ namespace cse498 {
 		bool mLevelJustAdvanced = false;
 
         size_t mAccumulatedGold = 0; /// Used to transfer gold to the InteractiveWorld Inventory
-        
+
         /**
          * @brief Builds the room pool for the current level.
          */
@@ -121,7 +121,7 @@ namespace cse498 {
         size_t mFloorIdL3V4;
         size_t mFloorIdL3V5;
 		/// Level 4 floor CellType IDs-> not used currently
-		// size_t mFloorIdL4V1; 
+		// size_t mFloorIdL4V1;
         // size_t mFloorIdL4V2;
         // size_t mFloorIdL4V3;
         // size_t mFloorIdL4V4;
@@ -137,6 +137,11 @@ namespace cse498 {
         size_t mInternalObstacleL1V2;
         size_t mDoorTileLeftL1;
         size_t mDoorTileRightL1;
+        size_t mTopRightCornerEdgeL1;
+        size_t mTopLeftCornerEdgeL1;
+        size_t mBottomRightCornerEdgeL1;
+        size_t mBottomLeftCornerEdgeL1;
+
         size_t mUpperExternalL2; ///< Level 2 wall CellType IDs
         size_t mLowerExternalL2;
         size_t mLeftExternalL2;
@@ -149,6 +154,7 @@ namespace cse498 {
         size_t mLowerExternalL3;
         size_t mLeftExternalL3;
         size_t mRightExternalL3;
+        size_t mCornerExternalL3;
         size_t mInternalObstacleL3V1;
         size_t mInternalObstacleL3V2;
         size_t mDoorTileLeftL3;
@@ -240,6 +246,7 @@ namespace cse498 {
             mLowerExternalL3 = main_grid.AddCellType("wall_l3v2", "lower wall. l3", '0');
             mLeftExternalL3 = main_grid.AddCellType("wall_l3v3", "left external wall. l3", '-');
             mRightExternalL3 = main_grid.AddCellType("wall_l3v4", "right external  wall. l3", '=');
+            mCornerExternalL3 = main_grid.AddCellType("corner_l3", "corner wall l3", 'x');
             mInternalObstacleL3V1 = main_grid.AddCellType("wall_l3v5", "interal obstacle wall. l3 v1", '[');
             mInternalObstacleL3V2 = main_grid.AddCellType("wall_l3v6", "interal obstacle wall. l3 v2", ']');
             mDoorTileLeftL3 = main_grid.AddCellType("wall_l3v7", "left door tile wall. l3", '.');
@@ -268,6 +275,11 @@ namespace cse498 {
             mExitDoorL2 = main_grid.AddCellType("exit_l2", "secret exit l2.", 'u');
             mExitDoorL3 = main_grid.AddCellType("exit_l3", "secret exit l3.", 'r');
             mExitDoorL4 = main_grid.AddCellType("exit_l4", "secret exit l4.", 'R');
+
+            mTopRightCornerEdgeL1 = main_grid.AddCellType("top_right_corner_l1", "top right corner of the forest.", '>');
+            mTopLeftCornerEdgeL1 = main_grid.AddCellType("top_left_corner_l1", "top left corner of the forest.", '(');
+            mBottomLeftCornerEdgeL1 = main_grid.AddCellType("bottom_left_corner_l1", "bottom left corner of the forest.", '~');
+            mBottomRightCornerEdgeL1 = main_grid.AddCellType("bottom_right_corner_l1", "bottom right corner of the forest.", '+');
 
             auto sword = mItemPool.Insert("Sword", 1.0);
             auto sword1 = mItemPool.Insert("Sword +1", 0.2);
@@ -511,7 +523,7 @@ namespace cse498 {
         * @breif Allow the agents to move around the maze.
         * @param agent - the agent performing an action
         * @param action_id - the id of the action being done
-        * @return An integer representing the success state 
+        * @return An integer representing the success state
         */
         int DoAction(AgentBase &agent, size_t action_id) override {
             // Determine where the agent is trying to move.
@@ -540,8 +552,8 @@ namespace cse498 {
                 /////////////////////////////////////////////////////
                 // The following code inside this if statement was adapted from the combat system in Group 2's demo code
                 bool interacted = false;
-                
-                // KAREN: I think there is some range mismatch here (GetNumAgents exceeds mSpawnedEnemyIds size?) 
+
+                // KAREN: I think there is some range mismatch here (GetNumAgents exceeds mSpawnedEnemyIds size?)
                 // so I commented out the original for loop and added a new loop
                 // for (size_t i = 0; i < GetNumAgents(); ++i) {
                 //     mEnemyId = mSpawnedEnemyIds[i];
@@ -580,7 +592,7 @@ namespace cse498 {
                 //         }
                 //     }
                 // }
-                
+
                 for (size_t mEnemyId : mSpawnedEnemyIds) {
                     AgentBase * other = TryGetAgent(mEnemyId);
                     if (!other) continue;
@@ -631,7 +643,7 @@ namespace cse498 {
                 /// The above code inside this if statement was adapted from the combat system in Group 2's demo code
                 /////////////////////////////////////////////////////
             }
-                
+
 
             WorldPosition new_position;
             switch (action_id) {
@@ -839,9 +851,9 @@ namespace cse498 {
                         inventory.AddItem(std::move(shovel));
                     }
                 }
-            } 
-			
-            if (main_grid[new_position] == mExitDoorL1 || main_grid[new_position] == mExitDoorL2 || 
+            }
+
+            if (main_grid[new_position] == mExitDoorL1 || main_grid[new_position] == mExitDoorL2 ||
                 main_grid[new_position] == mExitDoorL3 || main_grid[new_position] == mExitDoorL4) {
                 if (agent.IsPlayerAgent()) {
                     // UserInput();

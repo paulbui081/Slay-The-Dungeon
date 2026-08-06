@@ -1,7 +1,7 @@
 /**
  * This file is part of the Fall 2026, CSE 498, section 2, course project.
  * Attributed References for the 'random_splits' function: https://eskerda.com/bsp-dungeon-generation/
- * References: https://www.roguebasin.com/index.php/Basic_BSP_Dungeon_generation 
+ * References: https://www.roguebasin.com/index.php/Basic_BSP_Dungeon_generation
  * References: https://en.wikipedia.org/wiki/Binary_space_partitioning
  * @brief  Provides the utilities and tools to aid in the generation of a dungeon world
  * @note Status: PROPOSAL
@@ -41,7 +41,7 @@ namespace cse498 {
     constexpr int LEVEL_THREE_ITERATIONS = 20;
 
     constexpr std::array WALL_SET{'?', '!', '$', '@',
-                        '1','2','3','4', 
+                        '1','2','3','4',
                         '0','-','=','9'};
 
     /**
@@ -75,7 +75,7 @@ namespace cse498 {
     protected:
         BSP m_bsp; // BSP_Tree that contains information on the grid and it's dimensions
         //RoomHolder mRoomHolder;
-        std::vector<std::string> m_grid; //Grid we're rasterizing information from mBSP_Tree to
+        std::vector<std::string> m_grid; //Grid we're rasterizing information from mBSP_Tree too
         std::vector<LinkedRooms> m_connected_rooms; //The x-y coord pairs of two rooms used for connecting the room pair
         Random m_rng; //Random number generator
         // int m_offset_x; //x offset of room placement
@@ -85,7 +85,7 @@ namespace cse498 {
         /// @brief Creates and initializes BSP Tree, RoomHolder, and grid for outputting dungeon level
         WorldGeneration(const LevelBase &level)
             : m_bsp(level)
-        
+
         //mRoomHolder(room_pool),
         //m_grid(m_bsp.GetHeight(), std::string(m_bsp.GetWidth(), '#'))
         {
@@ -215,7 +215,7 @@ namespace cse498 {
 
 
         /// @brief Determines what ascii symbol is used for connecting the BSP Rooms together
-        void TunnelTileSelector(char& character, const char& current_level) { 
+        void TunnelTileSelector(char& character, const char& current_level) {
 
                 switch(current_level) {
                     case 1:
@@ -236,9 +236,9 @@ namespace cse498 {
 
         /**
          * @brief Connects the Rooms stored within the BSP Nodes taking into consideration their ascii symbol
-         * 
-         * @details Calculates the distance (x-y) between two rooms) and connects a corridor tunnel between them 
-         * 
+         *
+         * @details Calculates the distance (x-y) between two rooms) and connects a corridor tunnel between them
+         *
          */
         void ConnectBSPRooms(LinkedRooms RoomCoordinates, const int& current_level) {
             auto [x1_value, y1_value, x2_value , y2_value] = RoomCoordinates;
@@ -280,17 +280,17 @@ namespace cse498 {
 
                     if (x_char == '#' || it != WALL_SET.end()) {
                         TunnelTileSelector(x_char, current_level);
-                        
+
                     }
                 }
             }
         }
-        
+
         /// @brief Post-order DFS algorithm that searches BSP Tree
         /// @details DFS to go through the populated BSP tree in order to connect rooms together
         /// @param node BSPNode filled with room information (x/y coords, room width/height, room vector string)
         /// @return (x,y) pair coordinate struct of room's location in the grid
-        Point PostOrderRoomConnect(BSPNode& node) { 
+        Point PostOrderRoomConnect(BSPNode& node) {
             if (node.left_child == -1 && node.right_child == -1) {
                 auto pair = CalcRoomCenter(node.vector_room); //midpoint x and y of room
 
@@ -354,7 +354,7 @@ namespace cse498 {
                     break;
             }
             //Creates grid of size that's dependent on LevelState
-            m_grid = std::vector<std::string>(m_bsp.GetHeight(), std::string(m_bsp.GetWidth(), '#')); 
+            m_grid = std::vector<std::string>(m_bsp.GetHeight(), std::string(m_bsp.GetWidth(), '#'));
 
         }
     };

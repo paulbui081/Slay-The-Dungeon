@@ -63,8 +63,6 @@ public:
      * Sets Window to a certain width/height
      */
     void SetWindowSize(const int& width, const int& height);
-    void SetWindowHeight(int& height);
-    void SetWindowWidth(int& width);
 
     // Accessors
     SDL_Window* GetWindow() const { return mWindow; }

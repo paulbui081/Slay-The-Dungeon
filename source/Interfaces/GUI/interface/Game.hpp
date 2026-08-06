@@ -78,8 +78,8 @@ namespace cse498
         static constexpr int kDefaultWindowWidth = 800;
         static constexpr int kDefaultWindowHeight = 600;
 
-        static constexpr int kMinimumWindowWidth = 600;
-        static constexpr int kMinimumWindowHeight = 400;
+        static constexpr int kMinimumWindowWidth = 800;
+        static constexpr int kMinimumWindowHeight = 600;
 
         static constexpr int kInitialPlayerX = 1;
         static constexpr int kInitialPlayerY = 1;
