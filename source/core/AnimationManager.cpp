@@ -1,0 +1,62 @@
+/**
+ * This File is a part of Slay_The_Spire Project
+ * Extension off the Fall 2026, CSE 498, section 2, course project.
+ * @brief A class that manages the animation for Items and entities.
+ * @note Status: PROPOSAL
+ **/
+
+
+#include "AnimationManager.hpp"
+#include "../Interfaces/GUI/interface/Game.hpp"
+
+namespace cse498 {
+
+    AnimationManager::AnimationManager(Game& mGame) : mGame(mGame) {};
+    
+    /// @brief 
+    /// @param agent 
+    /// @param tile_width static_cast<int>(mOverworldGrid->GetTileWidth());
+    /// @param tile_height static_cast<int>(mOverworldGrid->GetTileHeight());
+    /// @param camX mCamX
+    /// @param camY mCamY
+    void AnimationManager::CharacterAnimation(PlayerAgent& agent) {
+        const WorldPosition& pos = agent.GetLocation().AsWorldPosition();
+        auto tw = mGame.GetDungeonGrid()->GetTileWidth();
+        auto th = mGame.GetDungeonGrid()->GetTileHeight();
+
+        int screen_x = (int(pos.CellX()) - mGame.GetDungeonCamX()) * tw;
+        int screen_y = (int(pos.CellY()) - mGame.GetDungeonCamY()) * th;
+
+        int vector_list_size = agent.GetAgentAnimations().size() - 1;
+
+        Uint32 elapsedTime = (SDL_GetTicks() - GetValueToSet()); //Converts from ms to seconds
+
+        if (elapsedTime >= kFrameIntereval) {
+
+            mValueToSet = SDL_GetTicks();
+
+            if (GetCounter() == vector_list_size) {
+                SetCounter(0);
+            }
+            else {
+                SetCounter(++mCounter);
+            }
+        }
+
+        
+        mGame.GetImageManger()->DrawImage(agent.GetAgentAnimations()[GetCounter()], screen_x, screen_y, tw, th);
+
+        
+
+    };
+
+    void AnimationManager::ItemAnimation(Item& item) {
+
+    };
+
+
+
+
+
+
+}

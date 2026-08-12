@@ -14,7 +14,7 @@ GameView::GameView(const std::string& title, int width, int height) : mTitle(tit
 GameView::~GameView() { Shutdown(); }
 
 bool GameView::Initialize() {
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
         std::cerr << "SDL_Init Error: " << SDL_GetError() << "\n";
         return false;
     }

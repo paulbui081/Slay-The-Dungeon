@@ -17,7 +17,7 @@ class GameView {
 private:
     SDL_Window* mWindow = nullptr;
     SDL_Renderer* mRenderer = nullptr;
-
+    
     std::string mTitle;
     int mWidth;
     int mHeight;

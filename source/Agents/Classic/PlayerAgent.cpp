@@ -10,7 +10,14 @@
 
 namespace cse498 {
 
-PlayerAgent::PlayerAgent(size_t id, const std::string& name, const WorldBase& world) : AgentBase(id, name, world) {}
+PlayerAgent::PlayerAgent(size_t id, const std::string& name, const WorldBase& world) : AgentBase(id, name, world) {
+        ///Populating Player with the animations to Cycle through
+        mAgentAnimations.push_back(PLAYER_IDLE_ANIM_0);
+        mAgentAnimations.push_back(PLAYER_IDLE_ANIM_1);
+        mAgentAnimations.push_back(PLAYER_IDLE_ANIM_2);
+        mAgentAnimations.push_back(PLAYER_IDLE_ANIM_3);
+
+}
 
 bool PlayerAgent::Initialize() {
     mInventory.SetChangeNotifier([this]() { RefreshCombatFromHand(); });
@@ -87,4 +94,12 @@ bool PlayerAgent::SpendGold(std::size_t amount) {
     mGold -= amount;
     return true;
 }
+
+/// @brief Shouldn't matter here, just putting this here for just in case I need another method of a getter
+/// @return 
+std::vector<std::string>& PlayerAgent::GetAgentAnimations() {
+    return mAgentAnimations;
+};
+
+
 } // namespace cse498

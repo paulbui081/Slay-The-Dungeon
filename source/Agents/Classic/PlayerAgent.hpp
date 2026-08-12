@@ -8,8 +8,19 @@
 
 #include "../../core/AgentBase.hpp"
 #include "PlayerFeatures/Inventory.hpp"
+#include <array>
 
 namespace cse498 {
+
+    const std::string PLAYER_IDLE_ANIM_0 = "player_idle_0";
+    const std::string PLAYER_IDLE_ANIM_1 = "player_idle_1";
+    const std::string PLAYER_IDLE_ANIM_2 = "player_idle_2";
+    const std::string PLAYER_IDLE_ANIM_3 = "player_idle_3";
+    
+enum PlayerStates {
+    IDLE,
+    ATTACK
+};
 
 class PlayerAgent : public AgentBase {
 private:
@@ -77,6 +88,8 @@ public:
      * @return true when initialization succeeds.
      */
     bool Initialize() override;
+
+    std::vector<std::string>& GetAgentAnimations() override;
 
     /**
      * Recomputes effective attack and range from base stats plus the weapon in the selected hotbar hand slot.

@@ -125,6 +125,7 @@ bool ImageManager::DrawImage(const std::string& name, int x, int y, int w, int h
 
     SDL_Rect dest = {x, y, w, h};
     SDL_RenderCopy(mRenderer, it->second.get(), nullptr, &dest);
+
     return true;
 }
 } // namespace cse498

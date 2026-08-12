@@ -20,6 +20,8 @@
 #include "../../../Agents/AI/EnemyAgent.hpp"
 #include "../../../Agents/AI/TrailblazerAgent.hpp"
 #include "../../../Agents/AI/FetchAgent.hpp"
+#include "../../../core/AnimationManager.hpp"
+#include "../GameView.hpp"
 #include "SDL2/SDL_events.h"
 #include "SDL2/SDL_video.h"
 
@@ -36,6 +38,14 @@ namespace cse498
     /// Autonomous overworld agent step delay. Dungeon agents remain turn-driven.
     constexpr Uint32 OVERWORLD_AGENT_STEP_DELAY = 900;
 
+
+    Game::~Game() = default;
+
+    Game::Game(const std::string &title, int width, int height) :
+            mGameView(std::make_shared<GameView>(title, width, height)), mTitleText(nullptr), mPauseText(nullptr),
+            mPickupText(nullptr), mStatsText(nullptr)
+        {
+        }
     // -----------------------------------------------------------------------
     //  Initialization
     // -----------------------------------------------------------------------
@@ -74,6 +84,7 @@ namespace cse498
 
         // Set up image manager and load all tile assets
         mImageManager = std::make_unique<ImageManager>(renderer);
+        mAnimationManager = std::make_unique<AnimationManager>(*this);
 
         // Helper lambda to load and propagate errors
         auto LoadCheck = [&](const std::string &name, const std::string &path) -> bool
@@ -287,9 +298,21 @@ namespace cse498
         if (!LoadCheck("Pickaxe", std::string(ASSETS_DIR) + "/" +  "items/item_pickaxe.png")) return false;
         if (!LoadCheck("Shovel", std::string(ASSETS_DIR) + "/" +  "items/item_shovel.png")) return false;
 
-        // Player
+        ///////////////
+        //
+        // PLAYER STATES AND ANIMATION LOADING
+        //
+        ///////////////
         if (!LoadCheck("player", std::string(ASSETS_DIR) + "/" +  "agents/playerCharacter/agent_player.png"))
             return false;
+        if (!LoadCheck("player_idle_0", std::string(ASSETS_DIR) + "/" +  "agents/playerCharacter/PlayerAnimations/knight_f_idle_anim_f0.png"))
+            return false;
+        if (!LoadCheck("player_idle_1", std::string(ASSETS_DIR) + "/" +  "agents/playerCharacter/PlayerAnimations/knight_f_idle_anim_f1.png"))
+            return false;
+        if (!LoadCheck("player_idle_2", std::string(ASSETS_DIR) + "/" +  "agents/playerCharacter/PlayerAnimations/knight_f_idle_anim_f2.png"))
+            return false;
+        if (!LoadCheck("player_idle_3", std::string(ASSETS_DIR) + "/" +  "agents/playerCharacter/PlayerAnimations/knight_f_idle_anim_f3.png"))
+            return false; 
 
         // Merchant Items
         if (!LoadCheck("Crown", std::string(ASSETS_DIR) + "/" + "items/item_crown.png")) return false;
@@ -1403,7 +1426,7 @@ namespace cse498
     void Game::UpdateDungeon()
     {
         // skip the player in the world agent list, they should choose their own move when needed to.
-        std::cout << "test output" << std::endl;
+        
         if (mTurnTaken) {
             for (size_t i = 0; i < mDungeonWorld->GetNumAgents(); ++i) {
                 // KAREN: I believe this should be GetAgentByIndex
@@ -1608,7 +1631,8 @@ namespace cse498
             } else {
                 sprite = "dun_monster";
             }
-            mImageManager->DrawImage(sprite, screen_x, screen_y, tw, th);
+            //mImageManager->DrawImage(sprite, screen_x, screen_y, tw, th);
+            mAnimationManager->CharacterAnimation(*mDungeonPlayer);
         }
 
         // Player health display
@@ -2478,5 +2502,7 @@ namespace cse498
         mDungeonCamX = std::clamp(mDungeonPlayerX - tiles_x / 2, 0, max_cam_x);
         mDungeonCamY = std::clamp(mDungeonPlayerY - tiles_y / 2, 0, max_cam_y);
     }
+
+
 
 } // namespace cse498

@@ -32,6 +32,7 @@
 #include "../../../source/Worlds/Hub/ResourceSpawn.hpp"
 #include "../../../Agents/Classic/FarmingAgent.hpp"
 
+
 namespace cse498
 {
 
@@ -54,6 +55,7 @@ namespace cse498
         QUIT       /// Exit state
     };
 
+    class AnimationManager;
     /**
      * @class Game
      * @brief Core class that manages game state, rendering, input, and world systems.
@@ -112,12 +114,14 @@ namespace cse498
         std::unique_ptr<ImageGrid> mOverworldGrid; /// Renderable grid for overworld tiles
         std::shared_ptr<InteractiveWorld> mOverWorld; /// Overworld game logic
         std::unique_ptr<DungeonWorld> mDungeonWorld; /// Dungeon world game logic
+        std::unique_ptr<AnimationManager> mAnimationManager;
 
         int mCamX = 0; /// Camera X position in tile coordinates
         int mCamY = 0; /// Camera Y position in tile coordinates
 
         int mPlayerX = kInitialPlayerX; /// Player X position in overworld tile coordinates
         int mPlayerY = kInitialPlayerY; /// Player Y position in overworld tile coordinates
+
 
         // Player agent pointers — worlds own the agents, Game holds raw pointers for access
         PlayerAgent* mOverworldPlayer = nullptr;
@@ -127,6 +131,7 @@ namespace cse498
         // Dungeon state
         // -------------------------
         std::unique_ptr<ImageGrid> mDungeonGrid; /// Renderable grid for dungeon tiles
+
 
         int mDungeonCamX = 0; /// Dungeon camera X position in tile coordinates
         int mDungeonCamY = 0; /// Dungeon camera Y position in tile coordinates
@@ -289,16 +294,12 @@ namespace cse498
          * @param height Window height in pixels
          */
         Game(const std::string &title = "Slay the Dungeon", int width = kDefaultWindowWidth,
-             int height = kDefaultWindowHeight) :
-            mGameView(std::make_shared<GameView>(title, width, height)), mTitleText(nullptr), mPauseText(nullptr),
-            mPickupText(nullptr), mStatsText(nullptr)
-        {
-        }
+             int height = kDefaultWindowHeight);
 
     /**
      * @brief Default destructor.
      */
-    ~Game() = default;
+    ~Game();
 
     Game(const Game&) = delete;
     Game& operator=(const Game&) = delete;
@@ -337,6 +338,33 @@ namespace cse498
      * @return Current GameState
      */
     [[nodiscard]] GameState GetState() const { return mState; }
-    };
+    
+    std::unique_ptr<ImageManager>& GetImageManger() {
+        return mImageManager;
+    }
+    std::unique_ptr<ImageGrid>& GetOverworldGrid() {
+        return mOverworldGrid;
+    }
+    std::shared_ptr<InteractiveWorld>& GetOverworld() {
+        return mOverWorld;
+    }
+    std::unique_ptr<DungeonWorld>& GetDungeonWorld() {
+        return mDungeonWorld;
+    }
+    std::unique_ptr<ImageGrid>& GetDungeonGrid() {
+        return mDungeonGrid;
+    }
+
+    int GetDungeonCamX() {
+        return mDungeonCamX;
+    }
+
+    int GetDungeonCamY() { 
+        return mDungeonCamY;
+        
+    }
+
+
+};
 
 } // namespace cse498

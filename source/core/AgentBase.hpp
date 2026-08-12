@@ -27,6 +27,8 @@ protected:
     /// A map of names to IDs for each available action (ActionMap)
     std::unordered_map<std::string, size_t> mActionMap;
 
+    std::vector<std::string> mAgentAnimations{}; 
+
     /// Action results are a 0 for failure); Success is any non-zero value,
     /// which may provide more info about the type of success.
     int mActionResult = 1;
@@ -269,6 +271,10 @@ public:
 
 	[[nodiscard]] virtual Inventory& GetInventory() { return sEmptyInventory; }
     [[nodiscard]] virtual const Inventory& GetInventory() const { return sEmptyInventory; }
+
+    virtual std::vector<std::string>& GetAgentAnimations() { 
+        return mAgentAnimations;
+    }
 
 	private:
 
