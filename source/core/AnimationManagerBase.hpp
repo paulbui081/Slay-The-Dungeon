@@ -26,14 +26,15 @@ namespace cse498 {
 
     class Game;
     class PlayerAgent;
+    class AgentBase;
 
-    class AnimationManager {
+    class AnimationManagerBase {
     public:
 
 
-        AnimationManager(Game& mGame);
+        AnimationManagerBase(Game& mGame);
 
-        ~AnimationManager() = default;
+        ~AnimationManagerBase() = default;
 
         /// @brief 
         /// @param agent 
@@ -41,11 +42,8 @@ namespace cse498 {
         /// @param tile_height static_cast<int>(mOverworldGrid->GetTileHeight());
         /// @param camX mCamX
         /// @param camY mCamY
-        void CharacterAnimation(PlayerAgent& agent);
+        void CharacterAnimation(AgentBase& agent);
 
-        /// @brief 
-        /// @param item 
-        void ItemAnimation(Item& item);
 
         ///
         void SetCounter(int counter_value) { 
@@ -66,13 +64,15 @@ namespace cse498 {
             return mValueToSet;
         }
 
+        void Handle(PlayerAgent& test);
 
-
+    protected: 
+        Game& mGame;
     private:
 
         int mCounter = 0;
         Uint32 mValueToSet = 0;
-        Game& mGame;
+
 
 
     };

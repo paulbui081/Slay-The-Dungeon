@@ -20,7 +20,7 @@
 #include "../../../Agents/AI/EnemyAgent.hpp"
 #include "../../../Agents/AI/TrailblazerAgent.hpp"
 #include "../../../Agents/AI/FetchAgent.hpp"
-#include "../../../core/AnimationManager.hpp"
+#include "../../../core/AnimationManagerBase.hpp"
 #include "../GameView.hpp"
 #include "SDL2/SDL_events.h"
 #include "SDL2/SDL_video.h"
@@ -84,7 +84,7 @@ namespace cse498
 
         // Set up image manager and load all tile assets
         mImageManager = std::make_unique<ImageManager>(renderer);
-        mAnimationManager = std::make_unique<AnimationManager>(*this);
+        mAnimationManager = std::make_unique<AnimationManagerBase>(*this);
 
         // Helper lambda to load and propagate errors
         auto LoadCheck = [&](const std::string &name, const std::string &path) -> bool
@@ -1616,7 +1616,7 @@ namespace cse498
 
         for (size_t i = 0; i < mDungeonWorld->GetNumAgents(); ++i)
         {
-            const AgentBase &agent = mDungeonWorld->GetAgentByIndex(i);
+            AgentBase &agent = mDungeonWorld->GetAgentByIndex(i);
             const WorldPosition &pos = agent.GetLocation().AsWorldPosition();
 
             int screen_x = (static_cast<int>(pos.CellX()) - mDungeonCamX) * tw;
@@ -1632,7 +1632,9 @@ namespace cse498
                 sprite = "dun_monster";
             }
             //mImageManager->DrawImage(sprite, screen_x, screen_y, tw, th);
-            mAnimationManager->CharacterAnimation(*mDungeonPlayer);
+            // mAnimationManager->CharacterAnimation(*mDungeonPlayer);
+
+            agent.AnimationDispatch(*mAnimationManager);
         }
 
         // Player health display

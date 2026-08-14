@@ -103,6 +103,8 @@ public:
 
     double GetLastDamageDealt() const { return mLastDamageDealt; }
 
+    void AnimationDispatch(AnimationManagerBase& anim) override {anim.Handle(*this);}
+
 private:
     /// Unmodified stats from the world (before hand weapon bonuses).
     AgentStats mBaseCombatStats{};

@@ -1,17 +1,23 @@
 /**
  * This File is a part of Slay_The_Spire Project
  * Extension off the Fall 2026, CSE 498, section 2, course project.
- * @brief A class that manages the animation for Items and entities.
+ * @brief A class that manages the basic, generic animation for Entities.
  * @note Status: PROPOSAL
  **/
 
 
-#include "AnimationManager.hpp"
+#include "AnimationManagerBase.hpp"
 #include "../Interfaces/GUI/interface/Game.hpp"
+#include "AgentBase.hpp"
 
 namespace cse498 {
 
-    AnimationManager::AnimationManager(Game& mGame) : mGame(mGame) {};
+    enum DirectionalState {
+        LEFT,
+        RIGHT
+    };
+
+    AnimationManagerBase::AnimationManagerBase(Game& mGame) : mGame(mGame) {};
     
     /// @brief 
     /// @param agent 
@@ -19,7 +25,7 @@ namespace cse498 {
     /// @param tile_height static_cast<int>(mOverworldGrid->GetTileHeight());
     /// @param camX mCamX
     /// @param camY mCamY
-    void AnimationManager::CharacterAnimation(PlayerAgent& agent) {
+    void AnimationManagerBase::CharacterAnimation(AgentBase& agent) {
         const WorldPosition& pos = agent.GetLocation().AsWorldPosition();
         auto tw = mGame.GetDungeonGrid()->GetTileWidth();
         auto th = mGame.GetDungeonGrid()->GetTileHeight();
@@ -50,12 +56,13 @@ namespace cse498 {
 
     };
 
-    void AnimationManager::ItemAnimation(Item& item) {
 
-    };
+    void AnimationManagerBase::Handle(PlayerAgent& test) {
+
+        CharacterAnimation(test);
 
 
-
+    }
 
 
 
