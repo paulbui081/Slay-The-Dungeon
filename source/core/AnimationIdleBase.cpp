@@ -6,9 +6,11 @@
  **/
 
 
-#include "AnimationManagerBase.hpp"
+#include "AnimationIdleBase.hpp"
 #include "../Interfaces/GUI/interface/Game.hpp"
 #include "AgentBase.hpp"
+#include "../Agents/Classic/Enemy.hpp"
+#include "../Agents/AI/EnemyAgent.hpp"
 
 namespace cse498 {
 
@@ -17,7 +19,7 @@ namespace cse498 {
         RIGHT
     };
 
-    AnimationManagerBase::AnimationManagerBase(Game& mGame) : mGame(mGame) {};
+    AnimationIdleBase::AnimationIdleBase(Game& mGame) : mGame(mGame) {};
     
     /// @brief 
     /// @param agent 
@@ -25,7 +27,7 @@ namespace cse498 {
     /// @param tile_height static_cast<int>(mOverworldGrid->GetTileHeight());
     /// @param camX mCamX
     /// @param camY mCamY
-    void AnimationManagerBase::CharacterAnimation(AgentBase& agent) {
+    void AnimationIdleBase::CharacterAnimation(AgentBase& agent) {
         const WorldPosition& pos = agent.GetLocation().AsWorldPosition();
         auto tw = mGame.GetDungeonGrid()->GetTileWidth();
         auto th = mGame.GetDungeonGrid()->GetTileHeight();
@@ -57,13 +59,16 @@ namespace cse498 {
     };
 
 
-    void AnimationManagerBase::Handle(PlayerAgent& test) {
-
+    void AnimationIdleBase::Handle(PlayerAgent& test) {
         CharacterAnimation(test);
-
-
     }
 
+    void AnimationIdleBase::Handle(Enemy& enemy) {
+        CharacterAnimation(enemy);
+    }
 
+    void AnimationIdleBase::Handle(EnemyAgent& enemy) {
+        CharacterAnimation(enemy);
+    }
 
 }

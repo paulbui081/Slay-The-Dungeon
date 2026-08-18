@@ -4,13 +4,13 @@
 
 #pragma once
 
-#include "AnimationManagerBase.hpp"
+#include "AnimationIdleBase.hpp"
 
 
 namespace cse498 {
 
 
-    class PlayerAnimationBase : private AnimationManagerBase {
+    class PlayerAnimationBase : private AnimationIdleBase {
 
         public:
 

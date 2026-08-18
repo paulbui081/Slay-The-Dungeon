@@ -10,7 +10,6 @@
 #include <array>
 #include <algorithm>
 #include <vector>
-#include "AgentBase.hpp"
 #include "item/Item.hpp"
 #include "../Interfaces/GUI/ImageManager.hpp"
 #include "../Interfaces/GUI/ImageGrid.hpp"
@@ -27,14 +26,16 @@ namespace cse498 {
     class Game;
     class PlayerAgent;
     class AgentBase;
+    class Enemy;
+    class EnemyAgent;
 
-    class AnimationManagerBase {
+    class AnimationIdleBase {
     public:
 
 
-        AnimationManagerBase(Game& mGame);
+        AnimationIdleBase(Game& mGame);
 
-        ~AnimationManagerBase() = default;
+        ~AnimationIdleBase() = default;
 
         /// @brief 
         /// @param agent 
@@ -64,8 +65,12 @@ namespace cse498 {
             return mValueToSet;
         }
 
-        void Handle(PlayerAgent& test);
+        /// @brief 
+        /// @param player 
+        void Handle(PlayerAgent& player);
 
+        void Handle(Enemy& enemy);
+        void Handle(EnemyAgent& enemy);
     protected: 
         Game& mGame;
     private:

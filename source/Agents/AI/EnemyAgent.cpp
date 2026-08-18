@@ -9,6 +9,10 @@
 #include <limits>
 
 namespace cse498 {
+const std::string SKELETON_IDLE_ANIM_0 = "skeleton_idle_0";
+const std::string SKELETON_IDLE_ANIM_1 = "skeleton_idle_1";
+const std::string SKELETON_IDLE_ANIM_2 = "skeleton_idle_2";
+const std::string SKELETON_IDLE_ANIM_3 = "skeleton_idle_3";
 /**
  * Constructor for the EnemyAgent.
  *
@@ -18,7 +22,13 @@ namespace cse498 {
  * @param name Name of the agent.
  * @param world Reference to the world the agent operates in.
  */
-EnemyAgent::EnemyAgent(size_t id, const std::string& name, const WorldBase& world) : AgentBase(id, name, world) {}
+EnemyAgent::EnemyAgent(size_t id, const std::string& name, const WorldBase& world) : AgentBase(id, name, world) {
+    mAgentAnimations.push_back(SKELETON_IDLE_ANIM_0);
+    mAgentAnimations.push_back(SKELETON_IDLE_ANIM_1);
+    mAgentAnimations.push_back(SKELETON_IDLE_ANIM_2);
+    mAgentAnimations.push_back(SKELETON_IDLE_ANIM_3);
+
+}
 
 /**
  * Initializes the agent by verifying required movement actions exist.

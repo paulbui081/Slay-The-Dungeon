@@ -55,7 +55,7 @@ namespace cse498
         QUIT       /// Exit state
     };
 
-    class AnimationManagerBase;
+    class AnimationIdleBase;
     /**
      * @class Game
      * @brief Core class that manages game state, rendering, input, and world systems.
@@ -114,7 +114,7 @@ namespace cse498
         std::unique_ptr<ImageGrid> mOverworldGrid; /// Renderable grid for overworld tiles
         std::shared_ptr<InteractiveWorld> mOverWorld; /// Overworld game logic
         std::unique_ptr<DungeonWorld> mDungeonWorld; /// Dungeon world game logic
-        std::unique_ptr<AnimationManagerBase> mAnimationManager;
+        std::unique_ptr<AnimationIdleBase> mAnimationManager;
 
         int mCamX = 0; /// Camera X position in tile coordinates
         int mCamY = 0; /// Camera Y position in tile coordinates

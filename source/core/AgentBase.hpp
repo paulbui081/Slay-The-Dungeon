@@ -18,11 +18,11 @@
 #include "Location.hpp"
 #include "WorldGrid.hpp"
 #include "WorldPosition.hpp"
-#include "AnimationManagerBase.hpp"
+#include "AnimationIdleBase.hpp"
 #include "../Agents/Classic/PlayerFeatures/Inventory.hpp"
 
 namespace cse498 {
-class AnimationManagerBase;
+class AnimationIdleBase;
 class AgentBase : public Entity {
 protected:
     /// A map of names to IDs for each available action (ActionMap)
@@ -277,7 +277,7 @@ public:
         return mAgentAnimations;
     }
 
-    virtual void AnimationDispatch(AnimationManagerBase& /*anim*/) {}
+    virtual void AnimationIdleDispatch(AnimationIdleBase& /*anim*/) {}
 
 	private:
 

@@ -56,6 +56,10 @@ namespace cse498 {
          * @return Always @c true — every @ref EnemyAgent is an enemy by definition.
          */
         [[nodiscard]] bool IsEnemy() const override { return true; }
+
+        void AnimationIdleDispatch(AnimationIdleBase& anim) override {anim.Handle(*this);}
+
+
     };
 
 } // namespace cse498

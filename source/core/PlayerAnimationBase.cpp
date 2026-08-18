@@ -7,7 +7,7 @@
 
 namespace cse498 {
 
-    PlayerAnimationBase::PlayerAnimationBase(Game& mGame) : AnimationManagerBase(mGame) {}
+    PlayerAnimationBase::PlayerAnimationBase(Game& mGame) : AnimationIdleBase(mGame) {}
     
 
 

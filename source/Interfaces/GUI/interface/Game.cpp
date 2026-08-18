@@ -20,7 +20,7 @@
 #include "../../../Agents/AI/EnemyAgent.hpp"
 #include "../../../Agents/AI/TrailblazerAgent.hpp"
 #include "../../../Agents/AI/FetchAgent.hpp"
-#include "../../../core/AnimationManagerBase.hpp"
+#include "../../../core/AnimationIdleBase.hpp"
 #include "../GameView.hpp"
 #include "SDL2/SDL_events.h"
 #include "SDL2/SDL_video.h"
@@ -84,7 +84,7 @@ namespace cse498
 
         // Set up image manager and load all tile assets
         mImageManager = std::make_unique<ImageManager>(renderer);
-        mAnimationManager = std::make_unique<AnimationManagerBase>(*this);
+        mAnimationManager = std::make_unique<AnimationIdleBase>(*this);
 
         // Helper lambda to load and propagate errors
         auto LoadCheck = [&](const std::string &name, const std::string &path) -> bool
@@ -181,6 +181,18 @@ namespace cse498
         if (!LoadCheck("goblin", std::string(ASSETS_DIR) + "/" + "agents/monsters/agent_monster_goblin.png")) return false;
         if (!LoadCheck("dun_monster", std::string(ASSETS_DIR) + "/" + "agents/monsters/agent_monster_skeleton.png")) return false;
 
+        // Mob Animations
+        if (!LoadCheck("goblin_idle_0", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/GoblinAnimations/goblin_idle_anim_f0.png")) return false;
+        if (!LoadCheck("goblin_idle_1", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/GoblinAnimations/goblin_idle_anim_f1.png")) return false;
+        if (!LoadCheck("goblin_idle_2", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/GoblinAnimations/goblin_idle_anim_f2.png")) return false;
+        if (!LoadCheck("goblin_idle_3", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/GoblinAnimations/goblin_idle_anim_f3.png")) return false;
+
+        if (!LoadCheck("skeleton_idle_0", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/SkeletonAnimations/skelet_idle_anim_f0.png")) return false;
+        if (!LoadCheck("skeleton_idle_1", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/SkeletonAnimations/skelet_idle_anim_f1.png")) return false;
+        if (!LoadCheck("skeleton_idle_2", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/SkeletonAnimations/skelet_idle_anim_f2.png")) return false;
+        if (!LoadCheck("skeleton_idle_3", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/SkeletonAnimations/skelet_idle_anim_f3.png")) return false;
+
+
         // --- Level 1 floors (forest) ---
         if (!LoadCheck("floor_l1v1", std::string(ASSETS_DIR) + "/" +  "world/forest/floor_tiles/tile_grass_1.png")) return false;
         if (!LoadCheck("floor_l1v2", std::string(ASSETS_DIR) + "/" +  "world/forest/floor_tiles/tile_grass_2.png")) return false;
@@ -259,8 +271,12 @@ namespace cse498
         // --- Shared special tiles ---
         if (!LoadCheck("wall_trap", std::string(ASSETS_DIR) + "/" +  "world/dungeon/floor_tiles/tile_stoneBrick_3.png")) return false;
         if (!LoadCheck("wall_loot", std::string(ASSETS_DIR) + "/" +  "tiles/item_spawn.png")) return false;
+
+
+        // --- Monster Agent special tiles ---
         if (!LoadCheck("wall_skeleton", std::string(ASSETS_DIR) + "/" +  "agents/monsters/agent_monster_skeleton.png")) return false;
         if (!LoadCheck("wall_goblin", std::string(ASSETS_DIR) + "/" +  "agents/monsters/agent_monster_goblin.png")) return false;
+
         // KAREN: Changes to match DungeonWorld
         // if (!LoadCheck("wall_secret", std::string(ASSETS_DIR) + "/" +  "world/dungeon/walls/external/door_right_dungeon.png")) return false;
         // if (!LoadCheck("exit", std::string(ASSETS_DIR) + "/" +  "world/dungeon/walls/external/door_left_dungeon.png")) return false;
@@ -1631,10 +1647,10 @@ namespace cse498
             } else {
                 sprite = "dun_monster";
             }
-            //mImageManager->DrawImage(sprite, screen_x, screen_y, tw, th);
+            // mImageManager->DrawImage(sprite, screen_x, screen_y, tw, th);
             // mAnimationManager->CharacterAnimation(*mDungeonPlayer);
 
-            agent.AnimationDispatch(*mAnimationManager);
+            agent.AnimationIdleDispatch(*mAnimationManager);
         }
 
         // Player health display

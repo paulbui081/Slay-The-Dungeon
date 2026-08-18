@@ -14,6 +14,12 @@
 #include "../../tools/DamageCalculator.hpp"
 
 namespace cse498 {
+
+const std::string GOBLIN_IDLE_ANIM_0 = "goblin_idle_0";
+const std::string GOBLIN_IDLE_ANIM_1 = "goblin_idle_1";
+const std::string GOBLIN_IDLE_ANIM_2 = "goblin_idle_2";
+const std::string GOBLIN_IDLE_ANIM_3 = "goblin_idle_3";
+
 class Enemy : public AgentBase {
 private:
     // Stats live in AgentBase
@@ -23,7 +29,14 @@ private:
     std::string mBuiltInWeaponName; // Intrinsic weapon identity (e.g., "Dagger")
 
 public:
-    Enemy(size_t id, const std::string& name, const WorldBase& world) : AgentBase(id, name, world) {}
+    Enemy(size_t id, const std::string& name, const WorldBase& world) : AgentBase(id, name, world) {
+        ///Populating goblins with the animations to Cycle through
+        mAgentAnimations.push_back(GOBLIN_IDLE_ANIM_0);
+        mAgentAnimations.push_back(GOBLIN_IDLE_ANIM_1);
+        mAgentAnimations.push_back(GOBLIN_IDLE_ANIM_2);
+        mAgentAnimations.push_back(GOBLIN_IDLE_ANIM_3);
+    }
+
     [[nodiscard]] bool IsEnemy() const override { return true; }
 
     /**
@@ -84,6 +97,10 @@ public:
         world.GetPlayer()->SetLastDamageDealt(damage);
         return true;
     }
+    
+    void AnimationIdleDispatch(AnimationIdleBase& anim) override {anim.Handle(*this);}
+
+
 };
 
 
