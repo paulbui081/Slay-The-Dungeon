@@ -14,11 +14,7 @@
 
 namespace cse498 {
 
-    enum DirectionalState {
-        LEFT,
-        RIGHT
-    };
-
+    
     AnimationIdleBase::AnimationIdleBase(Game& mGame) : mGame(mGame) {};
     
     /// @brief 
@@ -51,23 +47,65 @@ namespace cse498 {
             }
         }
 
-        
-        mGame.GetImageManger()->DrawImage(agent.GetAgentAnimations()[GetCounter()], screen_x, screen_y, tw, th);
+        if (mAnimationDirection == AnimationDirection::RIGHT) {
+            std::cout << "Going RIGHT" << std::endl;
+            mGame.GetImageManger()->DrawImage(agent.GetAgentAnimations()[0][GetCounter()], screen_x, screen_y, tw, th);
+        }
 
-        
+        else if (mAnimationDirection == AnimationDirection::LEFT) {
+            std::cout << "Going LEFT" << std::endl;
+            mGame.GetImageManger()->DrawImage(agent.GetAgentAnimations()[1][GetCounter()], screen_x, screen_y, tw, th);
+
+        }
 
     };
 
 
-    void AnimationIdleBase::Handle(PlayerAgent& test) {
+    void AnimationIdleBase::IdleHandle(PlayerAgent& test) {
         CharacterAnimation(test);
     }
 
-    void AnimationIdleBase::Handle(Enemy& enemy) {
+    void AnimationIdleBase::IdleHandle(Enemy& enemy) {
         CharacterAnimation(enemy);
     }
 
-    void AnimationIdleBase::Handle(EnemyAgent& enemy) {
+    void AnimationIdleBase::IdleHandle(EnemyAgent& enemy) {
+        CharacterAnimation(enemy);
+    }
+
+    /// TO - DO REPLACE WITH TERNARY BRANCH NOT IF ELSE
+
+    void AnimationIdleBase::DirectionHandle(PlayerAgent& test, size_t action_id) {
+        if (GetDirectionalArray()[action_id] == AnimationDirection::LEFT ) {
+            mAnimationDirection = AnimationDirection::LEFT;
+        }
+        else if (GetDirectionalArray()[action_id] == AnimationDirection::RIGHT ) {
+            mAnimationDirection = AnimationDirection::RIGHT;
+        }
+
+        CharacterAnimation(test);
+    }
+
+    void AnimationIdleBase::DirectionHandle(Enemy& enemy, size_t action_id) {
+        if (GetDirectionalArray()[action_id] == AnimationDirection::LEFT ) {
+            mAnimationDirection = AnimationDirection::LEFT;
+        }
+        else if (GetDirectionalArray()[action_id] == AnimationDirection::RIGHT ) {
+            mAnimationDirection = AnimationDirection::RIGHT;
+        }
+        CharacterAnimation(enemy);
+
+    }
+
+    void AnimationIdleBase::DirectionHandle(EnemyAgent& enemy, size_t action_id) {
+
+        if (GetDirectionalArray()[action_id] == AnimationDirection::LEFT ) {
+            mAnimationDirection = AnimationDirection::LEFT;
+        }
+        else if (GetDirectionalArray()[action_id] == AnimationDirection::RIGHT ) {
+            mAnimationDirection = AnimationDirection::RIGHT;
+        }
+
         CharacterAnimation(enemy);
     }
 

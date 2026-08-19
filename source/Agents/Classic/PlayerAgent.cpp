@@ -12,10 +12,22 @@ namespace cse498 {
 
 PlayerAgent::PlayerAgent(size_t id, const std::string& name, const WorldBase& world) : AgentBase(id, name, world) {
         ///Populating Player with the animations to Cycle through
-        mAgentAnimations.push_back(PLAYER_IDLE_ANIM_0);
-        mAgentAnimations.push_back(PLAYER_IDLE_ANIM_1);
-        mAgentAnimations.push_back(PLAYER_IDLE_ANIM_2);
-        mAgentAnimations.push_back(PLAYER_IDLE_ANIM_3);
+
+        //RIGHT SIDE
+        mAgentAnimations.push_back(std::vector<std::string>{
+            PLAYER_IDLE_ANIM_0_R,
+            PLAYER_IDLE_ANIM_1_R,
+            PLAYER_IDLE_ANIM_2_R,
+            PLAYER_IDLE_ANIM_3_R
+        });
+
+        //LEFT SIDE
+        mAgentAnimations.push_back(std::vector<std::string>{
+            PLAYER_IDLE_ANIM_0_L,
+            PLAYER_IDLE_ANIM_1_L,
+            PLAYER_IDLE_ANIM_2_L,
+            PLAYER_IDLE_ANIM_3_L
+        });
 
 }
 
@@ -97,9 +109,17 @@ bool PlayerAgent::SpendGold(std::size_t amount) {
 
 /// @brief Shouldn't matter here, just putting this here for just in case I need another method of a getter
 /// @return 
-std::vector<std::string>& PlayerAgent::GetAgentAnimations() {
+std::vector<std::vector<std::string>>& PlayerAgent::GetAgentAnimations() {
     return mAgentAnimations;
 };
+
+void PlayerAgent::AnimationDirectionDispatch(AnimationIdleBase& anim, size_t action_id)  {
+    if (action_id != 0) {
+        anim.DirectionHandle(*this, action_id);
+        SetDirection(mDirectionalArray[action_id]);
+    }
+    std::cout << "Printing out current player direction: " << action_id << std::endl;
+}
 
 
 } // namespace cse498

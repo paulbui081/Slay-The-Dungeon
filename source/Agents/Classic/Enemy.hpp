@@ -15,10 +15,15 @@
 
 namespace cse498 {
 
-const std::string GOBLIN_IDLE_ANIM_0 = "goblin_idle_0";
-const std::string GOBLIN_IDLE_ANIM_1 = "goblin_idle_1";
-const std::string GOBLIN_IDLE_ANIM_2 = "goblin_idle_2";
-const std::string GOBLIN_IDLE_ANIM_3 = "goblin_idle_3";
+const std::string GOBLIN_IDLE_ANIM_0_R = "goblin_idle_0_r";
+const std::string GOBLIN_IDLE_ANIM_1_R = "goblin_idle_1_r";
+const std::string GOBLIN_IDLE_ANIM_2_R = "goblin_idle_2_r";
+const std::string GOBLIN_IDLE_ANIM_3_R = "goblin_idle_3_r";
+
+const std::string GOBLIN_IDLE_ANIM_0_L = "goblin_idle_0_l";
+const std::string GOBLIN_IDLE_ANIM_1_L = "goblin_idle_1_l";
+const std::string GOBLIN_IDLE_ANIM_2_L = "goblin_idle_2_l";
+const std::string GOBLIN_IDLE_ANIM_3_L = "goblin_idle_3_l";
 
 class Enemy : public AgentBase {
 private:
@@ -29,14 +34,9 @@ private:
     std::string mBuiltInWeaponName; // Intrinsic weapon identity (e.g., "Dagger")
 
 public:
-    Enemy(size_t id, const std::string& name, const WorldBase& world) : AgentBase(id, name, world) {
-        ///Populating goblins with the animations to Cycle through
-        mAgentAnimations.push_back(GOBLIN_IDLE_ANIM_0);
-        mAgentAnimations.push_back(GOBLIN_IDLE_ANIM_1);
-        mAgentAnimations.push_back(GOBLIN_IDLE_ANIM_2);
-        mAgentAnimations.push_back(GOBLIN_IDLE_ANIM_3);
-    }
+    Enemy(size_t id, const std::string& name, const WorldBase& world);
 
+    
     [[nodiscard]] bool IsEnemy() const override { return true; }
 
     /**
@@ -98,8 +98,9 @@ public:
         return true;
     }
     
-    void AnimationIdleDispatch(AnimationIdleBase& anim) override {anim.Handle(*this);}
+    void AnimationIdleDispatch(AnimationIdleBase& anim) override {anim.IdleHandle(*this);}
 
+    void AnimationDirectionDispatch(AnimationIdleBase& anim, size_t action_id) override;
 
 };
 

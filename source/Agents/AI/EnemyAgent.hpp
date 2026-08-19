@@ -17,6 +17,16 @@
 #include "../../core/AgentBase.hpp"
 
 namespace cse498 {
+    const std::string SKELETON_IDLE_ANIM_0_R = "skeleton_idle_0_r";
+    const std::string SKELETON_IDLE_ANIM_1_R = "skeleton_idle_1_r";
+    const std::string SKELETON_IDLE_ANIM_2_R = "skeleton_idle_2_r";
+    const std::string SKELETON_IDLE_ANIM_3_R = "skeleton_idle_3_r";
+
+    const std::string SKELETON_IDLE_ANIM_0_L = "skeleton_idle_0_l";
+    const std::string SKELETON_IDLE_ANIM_1_L = "skeleton_idle_1_l";
+    const std::string SKELETON_IDLE_ANIM_2_L = "skeleton_idle_2_l";
+    const std::string SKELETON_IDLE_ANIM_3_L = "skeleton_idle_3_l";
+    
     /**
      * @class EnemyAgent
      * @brief An AI-controlled agent that selects actions based on heuristic evaluation.
@@ -57,8 +67,9 @@ namespace cse498 {
          */
         [[nodiscard]] bool IsEnemy() const override { return true; }
 
-        void AnimationIdleDispatch(AnimationIdleBase& anim) override {anim.Handle(*this);}
+        void AnimationIdleDispatch(AnimationIdleBase& anim) override {anim.IdleHandle(*this);}
 
+        void AnimationDirectionDispatch(AnimationIdleBase& anim, size_t action_id) override;
 
     };
 

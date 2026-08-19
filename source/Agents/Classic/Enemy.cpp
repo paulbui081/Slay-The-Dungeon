@@ -7,6 +7,28 @@
 #include "../../core/WorldBase.hpp"
 
 namespace cse498 {
+
+Enemy::Enemy(size_t id, const std::string& name, const WorldBase& world) : AgentBase(id, name, world) {
+        ///Populating Player with the animations to Cycle through
+
+        //RIGHT SIDE
+        mAgentAnimations.push_back(std::vector<std::string>{
+            GOBLIN_IDLE_ANIM_0_R,
+            GOBLIN_IDLE_ANIM_1_R,
+            GOBLIN_IDLE_ANIM_2_R,
+            GOBLIN_IDLE_ANIM_3_R
+        });
+
+        //LEFT SIDE
+        mAgentAnimations.push_back(std::vector<std::string>{
+            GOBLIN_IDLE_ANIM_0_L,
+            GOBLIN_IDLE_ANIM_1_L,
+            GOBLIN_IDLE_ANIM_2_L,
+            GOBLIN_IDLE_ANIM_3_L
+        });
+
+}
+
 size_t Enemy::SelectAction([[maybe_unused]] const WorldGrid& grid) {
 
     if (!mBehaviorRoot)
@@ -47,4 +69,14 @@ void Enemy::OnDeath() {
         analytics->LogRunEnemiesKilled(1);
     }
 }
+
+void Enemy::AnimationDirectionDispatch(AnimationIdleBase& anim, size_t action_id) {
+    if (action_id != 0) {
+        anim.DirectionHandle(*this, action_id);
+        SetDirection(mDirectionalArray[action_id]);
+    }
+}
+
+
+
 } // namespace cse498

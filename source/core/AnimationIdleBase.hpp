@@ -18,6 +18,13 @@
 #include <math.h>
 
 namespace cse498 {
+    enum class AnimationDirection {
+        STILL = 0,
+        UP,
+        DOWN,
+        LEFT,
+        RIGHT
+    };
 
     constexpr Uint32 kFramesPerSecond = 10;
     constexpr Uint32 kFrameIntereval = 1000 / kFramesPerSecond; //
@@ -65,12 +72,40 @@ namespace cse498 {
             return mValueToSet;
         }
 
-        /// @brief 
-        /// @param player 
-        void Handle(PlayerAgent& player);
+        /// @brief Overloaded Idle Animation Handler for PlayerAgent
+        /// @param player PlayerAgent class
+        void IdleHandle(PlayerAgent& player);
 
-        void Handle(Enemy& enemy);
-        void Handle(EnemyAgent& enemy);
+        /// @brief Overloaded Idle Animation Handler for Enemy
+        /// @param enemy Enemy class
+        void IdleHandle(Enemy& enemy);
+
+        /// @brief Overloaded Idle Animation Handler for EnemyAgent
+        /// @param enemy EnemyAgent Class
+        void IdleHandle(EnemyAgent& enemy);
+
+        /// @brief Overloaded Function Handles the direction the PlayerAgent faces for render
+        /// @param test player agent 
+        /// @param action_id int value of player movement 
+        void DirectionHandle(PlayerAgent& test, size_t action_id);
+
+        /// @brief Overloaded Function Handles the direction the Enemy faces for render
+        /// @param enemy enemy class
+        /// @param action_id int value of player movement 
+        void DirectionHandle(Enemy& enemy, size_t action_id);
+
+        /// @brief Overloaded Function Handles the direction the EnemyAgent faces for render
+        /// @param enemy Enemy Agent Class
+        /// @param action_id int value of player movement 
+        void DirectionHandle(EnemyAgent& enemy, size_t action_id);
+
+        /// @brief Sets direction 
+        /// @param agent_direction 
+        void SetDirection(AnimationDirection agent_direction) { mAnimationDirection = agent_direction; }
+
+        std::array<AnimationDirection, 5>& GetDirectionalArray() {
+            return mDirectionalArray;
+        }
     protected: 
         Game& mGame;
     private:
@@ -78,7 +113,15 @@ namespace cse498 {
         int mCounter = 0;
         Uint32 mValueToSet = 0;
 
+        AnimationDirection mAnimationDirection = AnimationDirection::RIGHT; //Default direction
 
+        std::array<AnimationDirection, 5> mDirectionalArray = { 
+            AnimationDirection::STILL,
+            AnimationDirection::UP,
+            AnimationDirection::DOWN,
+            AnimationDirection::LEFT,
+            AnimationDirection::RIGHT,
+        };
 
     };
 

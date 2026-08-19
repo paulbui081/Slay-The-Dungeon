@@ -84,7 +84,7 @@ namespace cse498
 
         // Set up image manager and load all tile assets
         mImageManager = std::make_unique<ImageManager>(renderer);
-        mAnimationManager = std::make_unique<AnimationIdleBase>(*this);
+        mAnimationIdleManager = std::make_unique<AnimationIdleBase>(*this);
 
         // Helper lambda to load and propagate errors
         auto LoadCheck = [&](const std::string &name, const std::string &path) -> bool
@@ -181,18 +181,26 @@ namespace cse498
         if (!LoadCheck("goblin", std::string(ASSETS_DIR) + "/" + "agents/monsters/agent_monster_goblin.png")) return false;
         if (!LoadCheck("dun_monster", std::string(ASSETS_DIR) + "/" + "agents/monsters/agent_monster_skeleton.png")) return false;
 
-        // Mob Animations
-        if (!LoadCheck("goblin_idle_0", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/GoblinAnimations/goblin_idle_anim_f0.png")) return false;
-        if (!LoadCheck("goblin_idle_1", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/GoblinAnimations/goblin_idle_anim_f1.png")) return false;
-        if (!LoadCheck("goblin_idle_2", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/GoblinAnimations/goblin_idle_anim_f2.png")) return false;
-        if (!LoadCheck("goblin_idle_3", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/GoblinAnimations/goblin_idle_anim_f3.png")) return false;
+        // Mob Animations - Right and Left side
+        if (!LoadCheck("goblin_idle_0_r", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/GoblinAnimations/goblin_idle_anim_right_f0.png")) return false;
+        if (!LoadCheck("goblin_idle_1_r", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/GoblinAnimations/goblin_idle_anim_right_f1.png")) return false;
+        if (!LoadCheck("goblin_idle_2_r", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/GoblinAnimations/goblin_idle_anim_right_f2.png")) return false;
+        if (!LoadCheck("goblin_idle_3_r", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/GoblinAnimations/goblin_idle_anim_right_f3.png")) return false;
 
-        if (!LoadCheck("skeleton_idle_0", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/SkeletonAnimations/skelet_idle_anim_f0.png")) return false;
-        if (!LoadCheck("skeleton_idle_1", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/SkeletonAnimations/skelet_idle_anim_f1.png")) return false;
-        if (!LoadCheck("skeleton_idle_2", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/SkeletonAnimations/skelet_idle_anim_f2.png")) return false;
-        if (!LoadCheck("skeleton_idle_3", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/SkeletonAnimations/skelet_idle_anim_f3.png")) return false;
+        if (!LoadCheck("goblin_idle_0_l", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/GoblinAnimations/goblin_idle_anim_left_f0.png")) return false;
+        if (!LoadCheck("goblin_idle_1_l", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/GoblinAnimations/goblin_idle_anim_left_f1.png")) return false;
+        if (!LoadCheck("goblin_idle_2_l", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/GoblinAnimations/goblin_idle_anim_left_f2.png")) return false;
+        if (!LoadCheck("goblin_idle_3_l", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/GoblinAnimations/goblin_idle_anim_left_f3.png")) return false;
 
+        if (!LoadCheck("skeleton_idle_0_r", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/SkeletonAnimations/skelet_idle_anim_right_f0.png")) return false;
+        if (!LoadCheck("skeleton_idle_1_r", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/SkeletonAnimations/skelet_idle_anim_right_f1.png")) return false;
+        if (!LoadCheck("skeleton_idle_2_r", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/SkeletonAnimations/skelet_idle_anim_right_f2.png")) return false;
+        if (!LoadCheck("skeleton_idle_3_r", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/SkeletonAnimations/skelet_idle_anim_right_f3.png")) return false;
 
+        if (!LoadCheck("skeleton_idle_0_l", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/SkeletonAnimations/skelet_idle_anim_left_f0.png")) return false;
+        if (!LoadCheck("skeleton_idle_1_l", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/SkeletonAnimations/skelet_idle_anim_left_f1.png")) return false;
+        if (!LoadCheck("skeleton_idle_2_l", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/SkeletonAnimations/skelet_idle_anim_left_f2.png")) return false;
+        if (!LoadCheck("skeleton_idle_3_l", std::string(ASSETS_DIR) + "/" +  "agents/monsters/MonsterAnimations/SkeletonAnimations/skelet_idle_anim_left_f3.png")) return false;
         // --- Level 1 floors (forest) ---
         if (!LoadCheck("floor_l1v1", std::string(ASSETS_DIR) + "/" +  "world/forest/floor_tiles/tile_grass_1.png")) return false;
         if (!LoadCheck("floor_l1v2", std::string(ASSETS_DIR) + "/" +  "world/forest/floor_tiles/tile_grass_2.png")) return false;
@@ -321,14 +329,24 @@ namespace cse498
         ///////////////
         if (!LoadCheck("player", std::string(ASSETS_DIR) + "/" +  "agents/playerCharacter/agent_player.png"))
             return false;
-        if (!LoadCheck("player_idle_0", std::string(ASSETS_DIR) + "/" +  "agents/playerCharacter/PlayerAnimations/knight_f_idle_anim_f0.png"))
+        if (!LoadCheck("player_idle_0_r", std::string(ASSETS_DIR) + "/" +  "agents/playerCharacter/PlayerAnimations/knight_f_idle_anim_right_f0.png"))
             return false;
-        if (!LoadCheck("player_idle_1", std::string(ASSETS_DIR) + "/" +  "agents/playerCharacter/PlayerAnimations/knight_f_idle_anim_f1.png"))
+        if (!LoadCheck("player_idle_1_r", std::string(ASSETS_DIR) + "/" +  "agents/playerCharacter/PlayerAnimations/knight_f_idle_anim_right_f1.png"))
             return false;
-        if (!LoadCheck("player_idle_2", std::string(ASSETS_DIR) + "/" +  "agents/playerCharacter/PlayerAnimations/knight_f_idle_anim_f2.png"))
+        if (!LoadCheck("player_idle_2_r", std::string(ASSETS_DIR) + "/" +  "agents/playerCharacter/PlayerAnimations/knight_f_idle_anim_right_f2.png"))
             return false;
-        if (!LoadCheck("player_idle_3", std::string(ASSETS_DIR) + "/" +  "agents/playerCharacter/PlayerAnimations/knight_f_idle_anim_f3.png"))
+        if (!LoadCheck("player_idle_3_r", std::string(ASSETS_DIR) + "/" +  "agents/playerCharacter/PlayerAnimations/knight_f_idle_anim_right_f3.png"))
             return false; 
+
+        if (!LoadCheck("player_idle_0_l", std::string(ASSETS_DIR) + "/" +  "agents/playerCharacter/PlayerAnimations/knight_f_idle_anim_left_f0.png"))
+            return false;
+        if (!LoadCheck("player_idle_1_l", std::string(ASSETS_DIR) + "/" +  "agents/playerCharacter/PlayerAnimations/knight_f_idle_anim_left_f1.png"))
+            return false;
+        if (!LoadCheck("player_idle_2_l", std::string(ASSETS_DIR) + "/" +  "agents/playerCharacter/PlayerAnimations/knight_f_idle_anim_left_f2.png"))
+            return false;
+        if (!LoadCheck("player_idle_3_l", std::string(ASSETS_DIR) + "/" +  "agents/playerCharacter/PlayerAnimations/knight_f_idle_anim_left_f3.png"))
+            return false; 
+
 
         // Merchant Items
         if (!LoadCheck("Crown", std::string(ASSETS_DIR) + "/" + "items/item_crown.png")) return false;
@@ -861,12 +879,10 @@ namespace cse498
 
             if (event.type == SDL_WINDOWEVENT)
             {
-                std::cout << "WindowEvent Firing!!!!" << std::endl;
                 switch (event.window.event){
                     case SDL_WINDOWEVENT_RESIZED:
                         auto& width = event.window.data1;
                         auto& height = event.window.data2;
-                        std::cout << "Resize Firing!!!!" << std::endl;
 
 
                         if (width < kMinimumWindowWidth && height < kMinimumWindowHeight)
@@ -1650,7 +1666,7 @@ namespace cse498
             // mImageManager->DrawImage(sprite, screen_x, screen_y, tw, th);
             // mAnimationManager->CharacterAnimation(*mDungeonPlayer);
 
-            agent.AnimationIdleDispatch(*mAnimationManager);
+            agent.AnimationIdleDispatch(*mAnimationIdleManager);
         }
 
         // Player health display
@@ -2259,6 +2275,10 @@ namespace cse498
         size_t action = KeyToAction(key);
         if (action == 0) return;
 
+        //Here is where the directional input logic should be placed
+
+        
+        //
         if (mState == GameState::OVERWORLD) {
             int result = mOverWorld->DoAction(*mOverworldPlayer, action);
             mOverworldPlayer->SetActionResult(result);
@@ -2282,6 +2302,9 @@ namespace cse498
             // Snapshot inventory count before move
             size_t items_before = 0;
             const auto& slots = mDungeonPlayer->GetInventory().GetInventoryArray();
+
+            mDungeonPlayer->AnimationDirectionDispatch(*mAnimationIdleManager, action);
+
             for (const auto& slot : slots) {
                 if (!slot.IsEmpty()) items_before += slot.GetQuantity();
             }
