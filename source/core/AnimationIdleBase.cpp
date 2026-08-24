@@ -68,6 +68,7 @@ namespace cse498 {
         }
 
         else {
+            mGame.GetImageManger()->DrawImage(agent.GetAgentAnimations()[1][GetCounter()], screen_x, screen_y, tw, th);
 
         }
 

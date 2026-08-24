@@ -109,7 +109,6 @@ namespace cse498 {
     private:
 
         int mCounter = 0;
-        const int mCurrentAnimationSet = 0;
 
         Uint32 mValueToSet = 0;
         AnimationDirection mAnimationDirection = AnimationDirection::RIGHT; //Default direction
