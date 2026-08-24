@@ -107,12 +107,6 @@ bool PlayerAgent::SpendGold(std::size_t amount) {
     return true;
 }
 
-/// @brief Shouldn't matter here, just putting this here for just in case I need another method of a getter
-/// @return 
-std::vector<std::vector<std::string>>& PlayerAgent::GetAgentAnimations() {
-    return mAgentAnimations;
-};
-
 void PlayerAgent::AnimationDirectionDispatch(AnimationIdleBase& anim, size_t action_id)  {
     if (action_id != 0) {
         anim.DirectionHandle(*this, action_id);

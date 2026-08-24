@@ -50,6 +50,9 @@ namespace cse498 {
         //Direction the Agent is facing    
         AgentDirection mAgentDirection = AgentDirection::RIGHT; 
 
+        // Current Animation Set an agent is on (0/1)
+        int mCurrentAnimationSet = 0;
+
         /// @brief List of Animations for an agent
         std::vector<std::vector<std::string>> mAgentAnimations{}; 
 
@@ -313,6 +316,13 @@ namespace cse498 {
         /// @brief 
         /// @param  
         virtual void AnimationDirectionDispatch(AnimationIdleBase& /*anim*/, size_t /*action_id)*/) {}
+
+        /// @brief 
+        virtual void GetAgentBaseType() { }
+
+        /// @brief 
+        /// @return 
+        AgentDirection GetAgentDirection() const { return mAgentDirection; }
         
         void SetDirection(AgentDirection agent_direction) { mAgentDirection = agent_direction; }
 

@@ -35,6 +35,7 @@ namespace cse498 {
     class AgentBase;
     class Enemy;
     class EnemyAgent;
+    enum class AgentDirection : int;
 
     class AnimationIdleBase {
     public:
@@ -46,11 +47,8 @@ namespace cse498 {
 
         /// @brief 
         /// @param agent 
-        /// @param tile_width static_cast<int>(mOverworldGrid->GetTileWidth());
-        /// @param tile_height static_cast<int>(mOverworldGrid->GetTileHeight());
-        /// @param camX mCamX
-        /// @param camY mCamY
-        void CharacterAnimation(AgentBase& agent);
+        /// @param direction 
+        void CharacterAnimation(AgentBase& agent, const AgentDirection& direction);
 
 
         ///
@@ -111,8 +109,9 @@ namespace cse498 {
     private:
 
         int mCounter = 0;
-        Uint32 mValueToSet = 0;
+        const int mCurrentAnimationSet = 0;
 
+        Uint32 mValueToSet = 0;
         AnimationDirection mAnimationDirection = AnimationDirection::RIGHT; //Default direction
 
         std::array<AnimationDirection, 5> mDirectionalArray = { 
