@@ -110,9 +110,8 @@ bool PlayerAgent::SpendGold(std::size_t amount) {
 void PlayerAgent::AnimationDirectionDispatch(AnimationIdleBase& anim, size_t action_id)  {
     if (action_id != 0) {
         anim.DirectionHandle(*this, action_id);
-        SetDirection(mDirectionalArray[action_id]);
+        if (static_cast<AgentDirection>(action_id) == AgentDirection::LEFT || static_cast<AgentDirection>(action_id) == AgentDirection::RIGHT) SetDirection(mDirectionalArray[action_id]);
     }
-    std::cout << "Printing out current player direction: " << action_id << std::endl;
 }
 
 

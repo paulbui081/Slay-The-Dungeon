@@ -181,7 +181,7 @@ size_t EnemyAgent::SelectAction(const WorldGrid& grid) {
 void EnemyAgent::AnimationDirectionDispatch(AnimationIdleBase& anim, size_t action_id) {
     if (action_id != 0) {
         anim.DirectionHandle(*this, action_id);
-        SetDirection(mDirectionalArray[action_id]);
+        if (static_cast<AgentDirection>(action_id) == AgentDirection::LEFT || static_cast<AgentDirection>(action_id) == AgentDirection::RIGHT) SetDirection(mDirectionalArray[action_id]);
     }
 }
 

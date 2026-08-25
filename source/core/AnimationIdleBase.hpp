@@ -25,6 +25,8 @@ namespace cse498 {
         LEFT,
         RIGHT
     };
+    
+
 
     constexpr Uint32 kFramesPerSecond = 10;
     constexpr Uint32 kFrameIntereval = 1000 / kFramesPerSecond; //
@@ -111,7 +113,8 @@ namespace cse498 {
         int mCounter = 0;
 
         Uint32 mValueToSet = 0;
-        AnimationDirection mAnimationDirection = AnimationDirection::RIGHT; //Default direction
+        AnimationDirection mAnimationDirection = AnimationDirection::RIGHT; // Where the Agent if facing for rendering
+        AnimationDirection mAgentDirection; //Where the Agent is facing for interaction 
 
         std::array<AnimationDirection, 5> mDirectionalArray = { 
             AnimationDirection::STILL,

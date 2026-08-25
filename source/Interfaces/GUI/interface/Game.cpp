@@ -1472,6 +1472,8 @@ namespace cse498
 
                 size_t action = agent.SelectAction(mDungeonWorld->GetGrid());
                 mDungeonWorld->DoAction(agent, action);
+                agent.AnimationDirectionDispatch(*mAnimationIdleManager, action); //Draws the direction that the agent is facing towards 
+
             }
 
             mDungeonWorld->RemoveDeadAgents(); // KAREN: just in case...
@@ -2303,7 +2305,6 @@ namespace cse498
             size_t items_before = 0;
             const auto& slots = mDungeonPlayer->GetInventory().GetInventoryArray();
 
-            mDungeonPlayer->AnimationDirectionDispatch(*mAnimationIdleManager, action);
 
             for (const auto& slot : slots) {
                 if (!slot.IsEmpty()) items_before += slot.GetQuantity();
@@ -2312,6 +2313,7 @@ namespace cse498
             WorldPosition pos_before = mDungeonPlayer->GetLocation().AsWorldPosition();
 
             mDungeonWorld->DoAction(*mDungeonPlayer, action);
+            mDungeonPlayer->AnimationDirectionDispatch(*mAnimationIdleManager, action); //Draws the direction that the agent is facing towards 
 
             WorldPosition pos = mDungeonPlayer->GetLocation().AsWorldPosition();
             mDungeonPlayerX = static_cast<int>(pos.CellX());

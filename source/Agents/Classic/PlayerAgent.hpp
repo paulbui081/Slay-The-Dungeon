@@ -97,7 +97,6 @@ namespace cse498 {
          */
         bool Initialize() override;
 
-        std::vector<std::vector<std::string>>& GetAgentAnimations() override;
 
         /**
          * Recomputes effective attack and range from base stats plus the weapon in the selected hotbar hand slot.

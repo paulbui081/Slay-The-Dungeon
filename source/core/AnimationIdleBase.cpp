@@ -21,6 +21,9 @@ namespace cse498 {
 
     /// ^ We already have that with the agent that's pass in, we need to make a getter for agent that grabs it's internal direction
     
+    constexpr int ANIMATION_SET_ONE = 0;
+    constexpr int ANIMATION_SET_TWO = 1;
+
     AnimationIdleBase::AnimationIdleBase(Game& mGame) : mGame(mGame) {};
     
     /// @brief 
@@ -56,20 +59,19 @@ namespace cse498 {
         ///IMPORTANT
         ///We we grab the agent from teh agent list (from game) and then grab their AnimationDirection enum state
         /// which will then be used to equate the direction we're facing
-        if (direction == AgentDirection::RIGHT) {
-            std::cout << "Going RIGHT" << std::endl;
-            mGame.GetImageManger()->DrawImage(agent.GetAgentAnimations()[0][GetCounter()], screen_x, screen_y, tw, th);
+        if (agent.GetAgentDirection() == AgentDirection::RIGHT) {
+            mGame.GetImageManger()->DrawImage(agent.GetAgentAnimations()[ANIMATION_SET_ONE][GetCounter()], screen_x, screen_y, tw, th);
         }
 
-        else if (direction == AgentDirection::LEFT) {
-            std::cout << "Going LEFT" << std::endl;
-            mGame.GetImageManger()->DrawImage(agent.GetAgentAnimations()[1][GetCounter()], screen_x, screen_y, tw, th);
+        else if (agent.GetAgentDirection() == AgentDirection::LEFT) {
+            mGame.GetImageManger()->DrawImage(agent.GetAgentAnimations()[ANIMATION_SET_TWO][GetCounter()], screen_x, screen_y, tw, th);
 
         }
 
         else {
-            mGame.GetImageManger()->DrawImage(agent.GetAgentAnimations()[1][GetCounter()], screen_x, screen_y, tw, th);
+            if (agent.GetAgentDirection() == AgentDirection::RIGHT) mGame.GetImageManger()->DrawImage(agent.GetAgentAnimations()[ANIMATION_SET_ONE][GetCounter()], screen_x, screen_y, tw, th);
 
+            else if (agent.GetAgentDirection() == AgentDirection::LEFT) mGame.GetImageManger()->DrawImage(agent.GetAgentAnimations()[ANIMATION_SET_TWO][GetCounter()], screen_x, screen_y, tw, th);
         }
 
     };
@@ -91,21 +93,22 @@ namespace cse498 {
 
     void AnimationIdleBase::DirectionHandle(PlayerAgent& test, size_t action_id) {
         if (test.GetAgentDirection() == AgentDirection::LEFT ) {
-            mAnimationDirection = AnimationDirection::LEFT;
+            mAgentDirection = AnimationDirection::LEFT;
         }
         else if (test.GetAgentDirection() == AgentDirection::RIGHT ) {
-            mAnimationDirection = AnimationDirection::RIGHT;
+            mAgentDirection = AnimationDirection::RIGHT;
         }
+
 
         CharacterAnimation(test, test.GetAgentDirection());
     }
 
     void AnimationIdleBase::DirectionHandle(Enemy& enemy, size_t action_id) {
         if (enemy.GetAgentDirection() == AgentDirection::LEFT ) {
-            mAnimationDirection = AnimationDirection::LEFT;
+            mAgentDirection = AnimationDirection::LEFT;
         }
         else if (enemy.GetAgentDirection() == AgentDirection::RIGHT ) {
-            mAnimationDirection = AnimationDirection::RIGHT;
+            mAgentDirection = AnimationDirection::RIGHT;
         }
         CharacterAnimation(enemy, enemy.GetAgentDirection());
 
@@ -114,10 +117,10 @@ namespace cse498 {
     void AnimationIdleBase::DirectionHandle(EnemyAgent& enemy, size_t action_id) {
 
         if (enemy.GetAgentDirection() == AgentDirection::LEFT ) {
-            mAnimationDirection = AnimationDirection::LEFT;
+            mAgentDirection = AnimationDirection::LEFT;
         }
         else if (enemy.GetAgentDirection() == AgentDirection::RIGHT ) {
-            mAnimationDirection = AnimationDirection::RIGHT;
+            mAgentDirection = AnimationDirection::RIGHT;
         }
 
         CharacterAnimation(enemy, enemy.GetAgentDirection());
