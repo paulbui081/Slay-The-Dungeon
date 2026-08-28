@@ -174,6 +174,13 @@ namespace cse498
         if (!LoadCheck("interactive_player", std::string(ASSETS_DIR) + "/" + "interactive_world/agents/player.png"))
             return false;
 
+        //Hit Markers 
+
+        if (!LoadCheck("hit_marker_blue", std::string(ASSETS_DIR) + "/" + "agents/playerCharacter/HitMarkers/hit_marker_blue.png")) return false;
+        if (!LoadCheck("hit_marker_red", std::string(ASSETS_DIR) + "/" + "agents/playerCharacter/HitMarkers/hit_marker_blue.png")) return false;
+        if (!LoadCheck("hit_marker_black", std::string(ASSETS_DIR) + "/" + "agents/playerCharacter/HitMarkers/hit_marker_blue.png")) return false;
+        if (!LoadCheck("hit_marker_green", std::string(ASSETS_DIR) + "/" + "agents/playerCharacter/HitMarkers/hit_marker_blue.png")) return false;
+
 
         // Mobs
         if (!LoadCheck("skeleton", std::string(ASSETS_DIR) + "/" +  "agents/monsters/agent_monster_skeleton.png"))
@@ -917,6 +924,30 @@ namespace cse498
                 }
             }
 
+            if(event.type == SDL_MOUSEBUTTONDOWN) {
+                
+                switch (event.button.button) {
+                    case SDL_BUTTON_RIGHT:
+                        mMouseState = true;
+
+                        if (mMouseState && SDL_PRESSED && (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(3))) {
+                            while (SDL_PRESSED) {
+                                std::cout << "proccing" << std::endl;
+                                if(event.button.state == SDL_RELEASED) {
+                                    std::cout << "finished" << std::endl;
+                                    mMouseState = false;
+                                    break;
+                                }
+                                break;
+                            }
+
+                   
+                        }
+                } 
+
+
+            }
+
             if (event.type == SDL_KEYDOWN)
             {
                 switch (event.key.keysym.sym)
@@ -1458,7 +1489,7 @@ namespace cse498
     void Game::UpdateDungeon()
     {
         // skip the player in the world agent list, they should choose their own move when needed to.
-        
+        // This is where the other agent's in the world move
         if (mTurnTaken) {
             for (size_t i = 0; i < mDungeonWorld->GetNumAgents(); ++i) {
                 // KAREN: I believe this should be GetAgentByIndex
@@ -1653,8 +1684,9 @@ namespace cse498
             AgentBase &agent = mDungeonWorld->GetAgentByIndex(i);
             const WorldPosition &pos = agent.GetLocation().AsWorldPosition();
 
-            int screen_x = (static_cast<int>(pos.CellX()) - mDungeonCamX) * tw;
-            int screen_y = (static_cast<int>(pos.CellY()) - mDungeonCamY) * th;
+            //Taken out for now since AnimationIdleDispatch handles this calculation logic
+            // int screen_x = (static_cast<int>(pos.CellX()) - mDungeonCamX) * tw;
+            // int screen_y = (static_cast<int>(pos.CellY()) - mDungeonCamY) * th;
 
             // const std::string &sprite = (&agent == mDungeonPlayer) ? "player" : "dun_monster";
             std::string sprite;
@@ -2277,9 +2309,6 @@ namespace cse498
         size_t action = KeyToAction(key);
         if (action == 0) return;
 
-        //Here is where the directional input logic should be placed
-
-        
         //
         if (mState == GameState::OVERWORLD) {
             int result = mOverWorld->DoAction(*mOverworldPlayer, action);

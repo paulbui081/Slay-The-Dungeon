@@ -127,6 +127,8 @@ namespace cse498
         PlayerAgent* mOverworldPlayer = nullptr;
         PlayerAgent* mDungeonPlayer = nullptr;
 
+        bool mMouseState = false;
+
         // -------------------------
         // Dungeon state
         // -------------------------

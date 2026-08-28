@@ -141,6 +141,9 @@ double EnemyAgent::ScoreAction(const WorldGrid& grid, size_t action_id) const {
 
     // Smaller distance is better.
     const int dist = ManhattanDistance(next_pos, player_pos);
+    if (dist == 0) {
+        return BadScore;
+    }
 
     // Higher score should mean "better move", so negate distance.
     return -static_cast<double>(dist);
