@@ -924,29 +924,24 @@ namespace cse498
                 }
             }
 
+            /// Currently working on - fast tab
             if(event.type == SDL_MOUSEBUTTONDOWN) {
                 
                 switch (event.button.button) {
                     case SDL_BUTTON_RIGHT:
                         mMouseState = true;
 
-                        if (mMouseState && SDL_PRESSED && (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(3))) {
-                            while (SDL_PRESSED) {
-                                std::cout << "proccing" << std::endl;
-                                if(event.button.state == SDL_RELEASED) {
-                                    std::cout << "finished" << std::endl;
-                                    mMouseState = false;
-                                    break;
-                                }
-                                break;
-                            }
+                        if (SDL_PRESSED && (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(3))) {
+
+                            
+                        }
 
                    
-                        }
+                    }
                 } 
 
 
-            }
+            
 
             if (event.type == SDL_KEYDOWN)
             {
