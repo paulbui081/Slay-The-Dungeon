@@ -114,7 +114,7 @@ namespace cse498 {
 
         Uint32 mValueToSet = 0;
         AnimationDirection mAnimationDirection = AnimationDirection::RIGHT; // Where the Agent if facing for rendering
-        AnimationDirection mAgentDirection; //Where the Agent is facing for interaction 
+        AnimationDirection mAgentDirection = AnimationDirection::RIGHT; //Where the Agent is facing for interaction 
 
         std::array<AnimationDirection, 5> mDirectionalArray = { 
             AnimationDirection::STILL,

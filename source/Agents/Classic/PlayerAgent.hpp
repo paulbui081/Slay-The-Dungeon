@@ -8,6 +8,7 @@
 
 #include "../../core/AgentBase.hpp"
 #include "PlayerFeatures/Inventory.hpp"
+#include "SDL2/SDL_events.h"
 #include <array>
 
 namespace cse498 {

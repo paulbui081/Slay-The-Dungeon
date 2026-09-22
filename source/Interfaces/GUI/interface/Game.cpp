@@ -45,6 +45,7 @@ namespace cse498
             mGameView(std::make_shared<GameView>(title, width, height)), mTitleText(nullptr), mPauseText(nullptr),
             mPickupText(nullptr), mStatsText(nullptr)
         {
+
         }
     // -----------------------------------------------------------------------
     //  Initialization
@@ -608,6 +609,10 @@ namespace cse498
 
         mOverworldGrid = std::make_unique<ImageGrid>(world_w, world_h, 64, 64);
 
+
+        mOverworldTileWidth = static_cast<int>(mOverworldGrid->GetTileWidth());
+        mOverworldTileHeight = static_cast<int>(mOverworldGrid->GetTileHeight());
+
         for (size_t y = 0; y < world_h; ++y) {
             for (size_t x = 0; x < world_w; ++x) {
                 WorldPosition pos(x, y);
@@ -641,6 +646,9 @@ namespace cse498
         mDungeonPlayer = mDungeonWorld->GetPlayer();
         mDungeonPlayer->SetMaxHealth(10);
         mDungeonPlayer->SetHealth(10);
+
+        mDungeonTileWidth = static_cast<int>(mDungeonGrid->GetTileWidth());
+        mDungeonTileHeight = static_cast<int>(mDungeonGrid->GetTileHeight());
 
         std::cout << "Dungeon player ID: " << mDungeonPlayer->GetID() << std::endl;
 
@@ -924,29 +932,35 @@ namespace cse498
                 }
             }
 
+            ///////////////
+            //
+            // Right-Click toggle system
+            //
+            ///////////////
             if(event.type == SDL_MOUSEBUTTONDOWN) {
+                std::cout << event.button.state << std::endl; // dummy print for any mouse-press
+                int posX = mDungeonPlayerX + 1;
+                int posY = mDungeonPlayerY + 1;
+                if (event.button.state == SDL_PRESSED && event.button.button == SDL_BUTTON_RIGHT) {
+                    std::cout << "Pressing State: " << std::endl;
+                    mRightClickState = true;
+                    
+
+                }
                 
-                switch (event.button.button) {
-                    case SDL_BUTTON_RIGHT:
-                        mMouseState = true;
+            }
+            else if (event.type == SDL_MOUSEBUTTONUP) 
+            {
+                if (event.button.state == SDL_RELEASED && mRightClickState) {
+                    mRightClickState = false;
 
-                        if (mMouseState && SDL_PRESSED && (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(3))) {
-                            while (SDL_PRESSED) {
-                                std::cout << "proccing" << std::endl;
-                                if(event.button.state == SDL_RELEASED) {
-                                    std::cout << "finished" << std::endl;
-                                    mMouseState = false;
-                                    break;
-                                }
-                                break;
-                            }
-
-                   
-                        }
-                } 
-
+                    std::cout << "button switch press released" << std::endl;
+                }
 
             }
+
+
+            
 
             if (event.type == SDL_KEYDOWN)
             {
@@ -1589,8 +1603,8 @@ namespace cse498
 
             const WorldPosition& pos = agent.GetLocation().AsWorldPosition();
 
-            int screen_x = (static_cast<int>(pos.CellX()) - mCamX) * tw;
-            int screen_y = (static_cast<int>(pos.CellY()) - mCamY) * th;
+            int screen_x = (static_cast<int>(pos.CellX()) - mCamX) * mOverworldTileWidth;
+            int screen_y = (static_cast<int>(pos.CellY()) - mCamY) * mOverworldTileHeight;
 
             std::string sprite = "ow_grass";
             if (&agent == mOverworldPlayer) {
@@ -1638,7 +1652,7 @@ namespace cse498
                 sprite = "skeleton";
             }
 
-            mImageManager->DrawImage(sprite, screen_x, screen_y, tw, th);
+            mImageManager->DrawImage(sprite, screen_x, screen_y, mOverworldTileWidth, mDungeonTileHeight);
         }
 
         // World resource inventory at top
@@ -1649,7 +1663,15 @@ namespace cse498
     void Game::RenderDungeon()
     {
         RenderWorld(*mDungeonGrid, mDungeonCamX, mDungeonCamY);
-
+        /////////////
+        //
+        // Mouse Right Click here
+        //
+        /////////////
+        if (mRightClickState) {
+            std::cout << "render testing print mouse state" << std::endl;
+            std::cout << mDungeonCamX << " " << mDungeonCamY << std::endl;
+        }
         // Draw floor underneath loot chest tiles so they don't have a black background
         {
             int tw = static_cast<int>(mDungeonGrid->GetTileWidth());
@@ -1667,10 +1689,10 @@ namespace cse498
                 for (size_t x = 0; x < grid.GetWidth(); ++x) {
                     WorldPosition pos(x, y);
                     if (grid.GetCellTypeName(grid[pos]) == "wall_loot") {
-                        int screen_x = (static_cast<int>(x) - mDungeonCamX) * tw;
-                        int screen_y = (static_cast<int>(y) - mDungeonCamY) * th;
-                        mImageManager->DrawImage(floorName, screen_x, screen_y, tw, th);
-                        mImageManager->DrawImage("wall_loot", screen_x, screen_y, tw, th);
+                        int screen_x = (static_cast<int>(x) - mDungeonCamX) * mDungeonTileWidth;
+                        int screen_y = (static_cast<int>(y) - mDungeonCamY) * mDungeonTileHeight;
+                        mImageManager->DrawImage(floorName, screen_x, screen_y, mDungeonTileWidth, mDungeonTileHeight);
+                        mImageManager->DrawImage("wall_loot", screen_x, screen_y, mDungeonTileWidth, mDungeonTileHeight);
                     }
                 }
             }
@@ -2320,8 +2342,8 @@ namespace cse498
 
             int tw = static_cast<int>(mOverworldGrid->GetTileWidth());
             int th = static_cast<int>(mOverworldGrid->GetTileHeight());
-            int tiles_x = mGameView->GetWidth() / tw;
-            int tiles_y = mGameView->GetHeight() / th;
+            int tiles_x = mGameView->GetWidth() / mOverworldTileWidth;
+            int tiles_y = mGameView->GetHeight() / mOverworldTileHeight;
             int max_cam_x = std::max(0, static_cast<int>(mOverworldGrid->GetWidth()) - tiles_x);
             int max_cam_y = std::max(0, static_cast<int>(mOverworldGrid->GetHeight()) - tiles_y);
 
@@ -2371,10 +2393,9 @@ namespace cse498
             }
 
             // Update camera
-            int tw = static_cast<int>(mDungeonGrid->GetTileWidth());
-            int th = static_cast<int>(mDungeonGrid->GetTileHeight());
-            int tiles_x = mGameView->GetWidth() / tw;
-            int tiles_y = mGameView->GetHeight() / th;
+
+            int tiles_x = mGameView->GetWidth() / mDungeonTileWidth;
+            int tiles_y = mGameView->GetHeight() / mDungeonTileHeight;
             int max_cam_x = std::max(0, static_cast<int>(mDungeonGrid->GetWidth()) - tiles_x);
             int max_cam_y = std::max(0, static_cast<int>(mDungeonGrid->GetHeight()) - tiles_y);
 
@@ -2530,8 +2551,8 @@ namespace cse498
         int tw = static_cast<int>(mOverworldGrid->GetTileWidth());
         int th = static_cast<int>(mOverworldGrid->GetTileHeight());
 
-        int Tiles_x = mGameView->GetWidth() / tw;
-        int Tiles_y = mGameView->GetHeight() / th;
+        int Tiles_x = mGameView->GetWidth() / mOverworldTileWidth;
+        int Tiles_y = mGameView->GetHeight() / mOverworldTileHeight;
 
         // Calculate the camera limits so it does not scroll outside the map.
         int max_cam_x = std::max(0, static_cast<int>(mOverworldGrid->GetWidth()) - Tiles_x);
@@ -2560,11 +2581,8 @@ namespace cse498
         mDungeonPlayerY = static_cast<int>(pos.CellY());
 
         // Calculate how many tiles fit on the screen.
-        int tw = static_cast<int>(mDungeonGrid->GetTileWidth());
-        int th = static_cast<int>(mDungeonGrid->GetTileHeight());
-
-        int tiles_x = mGameView->GetWidth() / tw;
-        int tiles_y = mGameView->GetHeight() / th;
+        int tiles_x = mGameView->GetWidth() / mDungeonTileWidth;
+        int tiles_y = mGameView->GetHeight() / mDungeonTileHeight;
 
         // Calculate the camera limits so it does not scroll outside the dungeon.
         int max_cam_x = std::max(0, static_cast<int>(mDungeonGrid->GetWidth()) - tiles_x);

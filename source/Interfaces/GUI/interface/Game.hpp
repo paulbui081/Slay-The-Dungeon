@@ -87,6 +87,16 @@ namespace cse498
         static constexpr int kInitialPlayerY = 1;
 
         // -------------------------
+        // GameTile Sizes
+        // -------------------------
+
+        int mOverworldTileWidth;
+        int mOverworldTileHeight;
+
+        int mDungeonTileWidth;
+        int mDungeonTileHeight; 
+
+        // -------------------------
         // Main menu UI
         // -------------------------
         Menu mMainMenu; /// Main menu options
@@ -127,7 +137,12 @@ namespace cse498
         PlayerAgent* mOverworldPlayer = nullptr;
         PlayerAgent* mDungeonPlayer = nullptr;
 
-        bool mMouseState = false;
+        // -------------------------
+        // Mouse State
+        // -------------------------
+        bool mRightClickState = false;
+        int mMouseX = 0;
+        int mMouseY = 0;
 
         // -------------------------
         // Dungeon state
