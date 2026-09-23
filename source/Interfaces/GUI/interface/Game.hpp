@@ -167,8 +167,15 @@ namespace cse498
         bool mCombatStatsFlushed = false;
         ReplayDriver mReplayDriver;
         uint32_t mLastReplayStepTime = 0; //Adds timing for replayDriver
+
+        // -------------------------
+        // Camera state
+        // ------------------------- 
         void SyncOverworldCameraToPlayer();
         void SyncDungeonCameraToPlayer();
+        std::unordered_set<WorldPosition> GetPlayerAttackRange();
+        void SetPlayerAttackRange();
+        std::unordered_set<WorldPosition> mPlayerAttackRange{};
 
         // -------------------------
         // Merchant system state

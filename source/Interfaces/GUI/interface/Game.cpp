@@ -939,12 +939,11 @@ namespace cse498
             ///////////////
             if(event.type == SDL_MOUSEBUTTONDOWN) {
                 std::cout << event.button.state << std::endl; // dummy print for any mouse-press
-                int posX = mDungeonPlayerX + 1;
-                int posY = mDungeonPlayerY + 1;
+                
                 if (event.button.state == SDL_PRESSED && event.button.button == SDL_BUTTON_RIGHT) {
                     std::cout << "Pressing State: " << std::endl;
                     mRightClickState = true;
-                    
+
 
                 }
                 
@@ -1670,7 +1669,7 @@ namespace cse498
         /////////////
         if (mRightClickState) {
             std::cout << "render testing print mouse state" << std::endl;
-            std::cout << mDungeonCamX << " " << mDungeonCamY << std::endl;
+            std::cout << mDungeonPlayerX << " " << mDungeonPlayerY << std::endl;
         }
         // Draw floor underneath loot chest tiles so they don't have a black background
         {
@@ -2361,6 +2360,7 @@ namespace cse498
                 if (!slot.IsEmpty()) items_before += slot.GetQuantity();
             }
 
+
             WorldPosition pos_before = mDungeonPlayer->GetLocation().AsWorldPosition();
 
             mDungeonWorld->DoAction(*mDungeonPlayer, action);
@@ -2369,6 +2369,18 @@ namespace cse498
             WorldPosition pos = mDungeonPlayer->GetLocation().AsWorldPosition();
             mDungeonPlayerX = static_cast<int>(pos.CellX());
             mDungeonPlayerY = static_cast<int>(pos.CellY());
+
+            SetPlayerAttackRange();
+
+            ///
+            /// Debug list - get rid of later 
+            ///
+            std::cout << "begin of list" << std::endl;
+            for (const auto& coords : mPlayerAttackRange) {
+                std::cout << coords.CellX() << " Space " << coords.CellY() << std::endl;
+                std::cout << "-------------" << std::endl;
+
+            }
 
             // Detect level change — player was moved to (1,1) and grid was regenerated
             if (pos.CellX() == DUNGEON_SPAWN_X && pos.CellY() == DUNGEON_SPAWN_Y && pos_before.CellX()
@@ -2593,6 +2605,36 @@ namespace cse498
         mDungeonCamY = std::clamp(mDungeonPlayerY - tiles_y / 2, 0, max_cam_y);
     }
 
+    void Game::SetPlayerAttackRange() {
+        mPlayerAttackRange.clear();
+
+        const int grid_constraint = 3; 
+        const int set_size = 9;
+
+        //Grabs the top left cell, diagonal to the player
+        double offset_coord_x = (double)mDungeonPlayerX - 1;
+        double offset_coord_y = (double)mDungeonPlayerY - 1;
+        double counter = 0.0;
+
+        for(int range = 1; range <= set_size; ++range) {
+            mPlayerAttackRange.insert(WorldPosition(offset_coord_x + counter, offset_coord_y));
+            counter += 1.0;
+            
+            if (range % grid_constraint == 0) {
+                counter = 0.0;
+                offset_coord_y += 1.0;
+                std::cout << "proc" << std::endl;
+            }
+
+        }
+
+    }
+
+    std::unordered_set<WorldPosition> Game::GetPlayerAttackRange() { return mPlayerAttackRange; }
+
+    void RenderAttackRange() {
+        
+    }
 
 
 } // namespace cse498

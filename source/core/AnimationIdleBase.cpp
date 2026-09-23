@@ -57,7 +57,7 @@ namespace cse498 {
         }
 
         ///IMPORTANT
-        ///We we grab the agent from teh agent list (from game) and then grab their AnimationDirection enum state
+        ///We we grab the agent from the agent list (from game) and then grab their AnimationDirection enum state
         /// which will then be used to equate the direction we're facing
         if (agent.GetAgentDirection() == AgentDirection::RIGHT) {
             mGame.GetImageManger()->DrawImage(agent.GetAgentAnimations()[ANIMATION_SET_ONE][GetCounter()], screen_x, screen_y, tw, th);
@@ -91,6 +91,9 @@ namespace cse498 {
 
     /// TO - DO REPLACE WITH TERNARY BRANCH NOT IF ELSE
 
+    /// @brief 
+    /// @param test 
+    /// @param action_id 
     void AnimationIdleBase::DirectionHandle(PlayerAgent& test, size_t action_id) {
         if (test.GetAgentDirection() == AgentDirection::LEFT ) {
             mAgentDirection = AnimationDirection::LEFT;
@@ -103,6 +106,9 @@ namespace cse498 {
         CharacterAnimation(test, test.GetAgentDirection());
     }
 
+    /// @brief 
+    /// @param enemy 
+    /// @param action_id 
     void AnimationIdleBase::DirectionHandle(Enemy& enemy, size_t action_id) {
         if (enemy.GetAgentDirection() == AgentDirection::LEFT ) {
             mAgentDirection = AnimationDirection::LEFT;
@@ -114,6 +120,9 @@ namespace cse498 {
 
     }
 
+    /// @brief 
+    /// @param enemy 
+    /// @param action_id 
     void AnimationIdleBase::DirectionHandle(EnemyAgent& enemy, size_t action_id) {
 
         if (enemy.GetAgentDirection() == AgentDirection::LEFT ) {
