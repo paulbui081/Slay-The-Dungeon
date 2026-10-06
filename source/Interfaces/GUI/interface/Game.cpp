@@ -34,6 +34,8 @@ namespace cse498
     constexpr int PICKUP_MESSAGE_DURATION_MS = 1000;
     constexpr int DUNGEON_SPAWN_X = 1;
     constexpr int DUNGEON_SPAWN_Y = 1;
+    constexpr int GRID_CONSTRAINT = 3;
+    constexpr int GRID_DIMENSIONS = 9;
 
     /// Autonomous overworld agent step delay. Dungeon agents remain turn-driven.
     constexpr Uint32 OVERWORLD_AGENT_STEP_DELAY = 900;
@@ -2605,11 +2607,12 @@ namespace cse498
         mDungeonCamY = std::clamp(mDungeonPlayerY - tiles_y / 2, 0, max_cam_y);
     }
 
+    /// @brief 
     void Game::SetPlayerAttackRange() {
         mPlayerAttackRange.clear();
 
-        const int grid_constraint = 3; 
-        const int set_size = 9;
+        auto grid_constraint = GRID_CONSTRAINT; 
+        auto set_size = GRID_DIMENSIONS;
 
         //Grabs the top left cell, diagonal to the player
         double offset_coord_x = (double)mDungeonPlayerX - 1;
@@ -2630,8 +2633,11 @@ namespace cse498
 
     }
 
+    /// @brief Returns the unordered set containing all the grid values the player can attack in
+    /// @return unordered_set of WorldPosition grid coordinates
     std::unordered_set<WorldPosition> Game::GetPlayerAttackRange() { return mPlayerAttackRange; }
 
+    /// @brief This function is meant to take an a set of grid coordinates and graphically display them
     void RenderAttackRange() {
         
     }
